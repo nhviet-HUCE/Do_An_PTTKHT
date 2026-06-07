@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Lịch Sử Mua Hàng</title>
+</head>
+<body>
+
+    <h2>Test API</h2>
+
+    <input type="text" id="taiKhoan" placeholder="Nhập tài khoản (vd: user01)">
+    <button onclick="fetchData()">Lấy hóa đơn</button>
+
+    <h3>Kết quả:</h3>
+    <pre id="result"></pre>
+
+    <script>
+        async function fetchData() {
+            const taiKhoan = document.getElementById("taiKhoan").value;
+
+            if (!taiKhoan) {
+                alert("Nhập tài khoản!");
+                return;
+            }
+
+            try {
+                const res = await fetch(`http://localhost:3000/api/v1/lich_su_mua_hang/${taiKhoan}`);
+                const data = await res.json();
+
+                document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                document.getElementById("result").textContent = "Lỗi: " + err;
+            }
+        }
+    </script>
+
+</body>
+</html>
