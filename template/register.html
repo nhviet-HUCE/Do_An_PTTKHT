@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form id="register_form">
+        <label for="username">Username:</label>
+        <input type="text" name="user_name" id="username">
+        <label for="password">Password:</label>
+        <input type="password" name="user_password" id="password">
+        <input type="submit">
+    </form>
+    <script>
+        const form = document.getElementById('register_form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            try{
+                const response = await fetch('http://localhost:8080/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ User_name: username, User_password: password })
+                });
+                const data = await response.json();
+                if(response.ok){
+                    alert('Registration successful');
+                }else{
+                    alert('Registration failed: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

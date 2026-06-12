@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <form id="login_form">
+        <label for="username">Username:</label>
+        <input type="text" name="User_name" id="username">
+        <label for="password">Password:</label>
+        <input type="password" name="User_password" id="password">
+        <input type="submit">
+    </form>
+    <script>
+        const form = document.getElementById('login_form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ User_name: username, User_password: password })
+                });
+                const data = await response.json();
+                if (data.token) {
+                    alert('Login successful');
+                    localStorage.setItem('token', data.token);
+                } else {
+                    alert('Login failed: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

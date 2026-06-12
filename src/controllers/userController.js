@@ -1,4 +1,3 @@
-'use strict'
 const util = require('util');
 const mysql = require('mysql2');
 const db = require('../../config/db');
@@ -16,6 +15,16 @@ exports.getUserById = async (req, res, next) => {
     try {
         const sql = 'select * from user where id=?';
         const user = await db.query(sql, [req.params.id]);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.json(user[0]);
+    } catch (err) {
+        next(err);
+    }
+};
+exports.getUserByUsername = async (req, res, next) => {
+    try {
+        const sql = 'select * from user where User_name=?';
+        const user = await db.query(sql, [req.params.username]);
         if (!user) return res.status(404).json({ message: 'User not found' });
         res.json(user[0]);
     } catch (err) {
