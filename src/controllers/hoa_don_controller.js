@@ -27,3 +27,74 @@ exports.show_buy_his = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.create_bill = async (req, res, next) => {
+    try {
+        const taiKhoan = req.params.tai_khoan;
+        const { thong_tin_khach_hang, gia_tien, chi_tiet } = req.body;
+
+        // ===== 1. Hàm random 5 số =====
+        const random5 = () => Math.floor(10000 + Math.random() * 90000);
+
+        // ===== 2. Sinh dữ liệu =====
+        const maHoaDon = "HD" + random5();
+        const maVanDon = "VD" + random5();
+        const thoi_gian_mua_hang = new Date();
+
+        const finalGiaTien = gia_tien || 0;
+        const thongTinKH = thong_tin_khach_hang || "Khách test";
+
+        // ===== 3. Insert bảng hóa đơn =====
+        const sqlInsertHoaDon = `
+            INSERT INTO hoa_don
+            (ma_hoa_don, tai_khoan, thoi_gian_mua_hang, gia_tien,
+             thong_tin_khach_hang, ma_van_don, dia_chi_sieu_thi, trang_thai)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        await database.query(sqlInsertHoaDon, [
+            maHoaDon,
+            taiKhoan,
+            thoi_gian_mua_hang,
+            finalGiaTien,
+            thongTinKH,
+            maVanDon,
+            "Hà Nội",
+            "Chờ"
+        ]);
+
+        // ===== 4. Insert chi tiết (nếu có) =====
+        if (Array.isArray(chi_tiet)) {
+            const sqlInsertCT = `
+                INSERT INTO dong_hang_hoa
+                (ma_hoa_don, ma_san_pham, so_luong)
+                VALUES (?, ?, ?)
+            `;
+
+            for (const item of chi_tiet) {
+                await database.query(sqlInsertCT, [
+                    maHoaDon,
+                    item.ma_san_pham,
+                    item.so_luong
+                ]);
+            }
+        }
+
+        // ===== 5. Response =====
+        res.status(201).json({
+            message: "Tạo hóa đơn thành công",
+            data: {
+                ma_hoa_don: maHoaDon,
+                thoi_gian_mua_hang: thoi_gian_mua_hang,
+                ma_van_don: maVanDon,
+                tai_khoan: taiKhoan,
+                gia_tien: finalGiaTien,
+                trang_thai: "Chờ"
+            }
+        });
+
+    } catch (err) {
+        next(err);
+    }
+};
+    
