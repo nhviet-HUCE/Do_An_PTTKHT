@@ -1,9 +1,9 @@
 'use strict'
 const util = require('util');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const database = require('../../config/db');
 
-// Viết thử cái hàm xem lịch sử mua hàng
+
 exports.show_buy_his = async (req, res, next) => {
     try {
         const taiKhoan = req.params.tai_khoan;
