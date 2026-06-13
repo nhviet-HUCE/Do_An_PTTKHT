@@ -1,10 +1,9 @@
 'use strict'
 const util = require('util');
-const mysql = require('mysql2/promise');
 const database = require('../../config/db');
 const { error } = require('console');
 
-
+// Cái product_status này chỉ chọn thôi, toogle ở dưới mới là sửa
 exports.product_status = async (req, res) => {
     try {
         const status = req.params.status;

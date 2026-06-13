@@ -1,6 +1,5 @@
 'use strict'
 const util = require('util');
-const mysql = require('mysql2/promise');
 const database = require('../../config/db');
 
 
@@ -97,4 +96,58 @@ exports.create_bill = async (req, res, next) => {
         next(err);
     }
 };
-    
+
+exports.xu_ly_don_hang = async (req, res) => {
+    try {
+        const { ma_hoa_don, trang_thai } = req.body;
+        const rows = await database.query(
+            "SELECT * FROM test_pttk.hoa_don WHERE ma_hoa_don = ? AND trang_thai = 'Chờ'",
+            [ma_hoa_don]
+        );
+
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy hóa đơn hoặc trạng thái không hợp lệ"
+            });
+        }
+
+        
+        if (trang_thai === "chap_nhan") {
+            
+            await database.execute(
+                "UPDATE test_pttk.hoa_don SET trang_thai = 'Chấp nhận' WHERE ma_hoa_don = ?",
+                [ma_hoa_don]
+            );
+
+            return res.json({
+                success: true,
+                message: "Đã chấp nhận đơn hàng"
+            });
+
+        } else if (trang_thai === "huy") {
+            
+            await database.execute(
+                "UPDATE test_pttk.hoa_don SET trang_thai = 'Hủy' WHERE ma_hoa_don = ?",
+                [ma_hoa_don]
+            );
+
+            return res.json({
+                success: true,
+                message: "Đã hủy đơn hàng"
+            });
+
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Action không hợp lệ (chap_nhan | huy)"
+            });
+        }
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            error: err.message
+        });
+    }
+};
