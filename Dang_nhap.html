@@ -412,29 +412,79 @@
     </main>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            
-            const phone = document.getElementById('phoneInput').value.trim();
-            const password = document.getElementById('passwordInput').value.trim();
+    // URL API Backend xử lý đăng nhập (Thay đổi theo hệ thống thực tế của bạn)
+    const API_LOGIN_URL = "http://localhost:3000/api/auth/login";
 
-            if (!phone || !password) {
-                alert("Yêu cầu nhập đầy đủ: Vui lòng nhập cả số điện thoại và mật khẩu!");
-                return;
-            }
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); 
+        
+        const phone = document.getElementById('phoneInput').value.trim();
+        const password = document.getElementById('passwordInput').value.trim();
+        const submitBtn = document.querySelector('.submit-btn');
 
-            const VALID_PHONE = "0123456789"; 
-            const VALID_PASSWORD = "123456";
+        // 1. Kiểm tra rỗng ở phía Front-end
+        if (!phone || !password) {
+            alert("Vui lòng nhập đầy đủ số điện thoại và mật khẩu!");
+            return;
+        }
 
-            if (phone !== VALID_PHONE || password !== VALID_PASSWORD) {
-                alert("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại!");
+        try {
+            // Thay đổi giao diện nút bấm trong lúc chờ server phản hồi
+            submitBtn.textContent = "Đang xử lý...";
+            submitBtn.disabled = true;
+
+            // 2. Gửi HTTP POST Request mang theo dữ liệu lên Backend để kiểm tra DB
+            const response = await fetch(API_LOGIN_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phoneNumber: phone,
+                    password: password
+                })
+            });
+
+            // Parse dữ liệu JSON trả về từ Backend
+            const result = await response.json();
+
+            // 3. Xử lý các luồng nghiệp vụ dựa trên mã trạng thái HTTP trả về
+            if (response.status === 404) {
+                // Luồng ngoại lệ: Không tìm thấy sdt trong DB
+                alert("Số điện thoại chưa được đăng ký trong hệ thống!");
+                document.getElementById('phoneInput').focus();
+            } 
+            else if (response.status === 401) {
+                // Luồng ngoại lệ: Sai mật khẩu
+                alert("Mật khẩu không chính xác. Vui lòng nhập lại!");
                 document.getElementById('passwordInput').value = "";
-                return; 
+                document.getElementById('passwordInput').focus();
+            }
+            else if (response.ok) {
+                // Luồng thành công: Backend báo đúng tài khoản và cấp Token
+                alert("Đăng nhập thành công!");
+                
+                // Lưu Token/Session vào LocalStorage để dùng cho các trang khác (như Lịch sử mua hàng)
+                localStorage.setItem('userToken', result.token);
+                
+                // Chuyển hướng người dùng về trang chủ hoặc trang quản lý
+                window.location.href = "index.html"; 
+            } 
+            else {
+                // Các lỗi không xác định khác từ server
+                alert("Lỗi hệ thống: " + (result.message || "Vui lòng thử lại sau."));
             }
 
-            alert("Đăng nhập thành công! Khởi tạo phiên làm việc.");
-            window.location.href = "#"; 
-        });
-    </script>
+        } catch (error) {
+            // Bắt lỗi mất mạng hoặc Backend bị sập không phản hồi
+            alert("Hệ thống gặp sự cố kết nối. Vui lòng kiểm tra mạng hoặc thử lại sau!");
+            console.error("Lỗi đăng nhập:", error);
+        } finally {
+            // Khôi phục lại trạng thái nút bấm
+            submitBtn.textContent = "Tiếp Tục";
+            submitBtn.disabled = false;
+        }
+    });
+</script>
 </body>
 </html>
