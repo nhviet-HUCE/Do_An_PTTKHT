@@ -15,9 +15,37 @@ exports.getUserById = async (req, res, next) => {
     try {
         const sql = 'select * from user where id=?';
         const user = await db.query(sql, [req.params.id]);
-        if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!user || user.length === 0) return res.status(404).json({ message: 'User not found' });
         res.json(user[0]);
     } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+exports.getCurrentUser = async (req, res, next) => {
+    try {
+        if (!req.currentUser) {
+            const sql = 'select * from user where id=?';
+            const user = await db.query(sql, [req.user.id]);
+            if (!user || user.length === 0) return res.status(404).json({ message: 'User not found' });
+            req.currentUser = user[0];
+        }
+        res.json(req.currentUser);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+exports.loadCurrentUser = async (req, res, next) => {
+    try {
+        const sql = 'select * from user where id=?';
+        const user = await db.query(sql, [req.user.id]);
+        if (!user || user.length === 0) return res.status(404).json({ message: 'User not found' });
+        req.currentUser = user[0];
+        next();
+    } catch (err) {
+        console.error(err);
         next(err);
     }
 };

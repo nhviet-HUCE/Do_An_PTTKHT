@@ -12,8 +12,10 @@ const authMiddleware = (req, res, next) => {
         res.status(401).json({ message: 'Invalid token'});
     }
 };
+
 const adminMiddleware = (req, res, next) => {
-    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Access denied'});
+    const role = req.currentUser?.role || req.currentUser?.User_role || req.user?.role || req.user?.User_role;
+    if (role !== 'admin') return res.status(403).json({ message: 'Access denied' });
     next();
 }
 module.exports = { authMiddleware, adminMiddleware };

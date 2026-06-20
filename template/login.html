@@ -4,17 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Login</title>
 </head>
 
 <body>
-    <form id="login_form">
-        <label for="username">Username:</label>
-        <input type="text" name="User_name" id="username">
-        <label for="password">Password:</label>
-        <input type="password" name="User_password" id="password">
-        <input type="submit">
-    </form>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login_form">
+            <label for="username">Username:</label>
+            <input type="text" name="User_name" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" name="User_password" id="password" required>
+            <input type="submit" id="submit" value="Login">
+        </form>
+    </div>
     <script>
         const form = document.getElementById('login_form');
         form.addEventListener('submit', async (e) => {
@@ -36,6 +40,10 @@
                 } else {
                     alert('Login failed: ' + data.message);
                 }
+                if (data.user.role === "admin"){
+                    return window.location.href = 'adminPage.html';
+                }
+                return window.location.href = 'dashboard.html';
             } catch (error) {
                 console.error('Error:', error);
             }

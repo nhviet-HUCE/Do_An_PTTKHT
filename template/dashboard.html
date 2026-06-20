@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        search input {
+            padding: 5px;
+            border-radius: 4px;
+            border: none;
+        }
+
+        #nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        #nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #searchbar {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Trang chủ</h1>
+        <search id="searchbar">
+            <input type="text" placeholder="Tìm kiếm...">
+        </search>
+        <div id="nav">
+            <p id="username"></p>
+            <a href="register.html" id="register-link"></a>
+            <a href="login.html" id="signed"></a>
+        </div>
+    </header>
+    <main>
+        <p>Xin chào, đây là trang chủ!</p>
+    </main>
+    <script>
+        function checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            const signedInLink = document.getElementById('signed');
+            const registerLink = document.getElementById('register-link');
+            const usernameDisplay = document.getElementById('username');
+            if (token) {
+                signedInLink.textContent = 'Đăng xuất';
+                signedInLink.href = '#';
+                signedInLink.addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                });
+            } else {
+                usernameDisplay.textContent = 'Xin chào, khách!';
+                signedInLink.textContent = 'Đăng nhập';
+                registerLink.textContent = 'Đăng ký';
+                signedInLink.href = 'login.html';
+                registerLink.href = 'register.html';
+            }
+        }
+        async function fetchProtectedData() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log('No token found. Please log in first.');
+                return;
+            }
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/protected', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                document.getElementById('username').textContent = `Xin chào, ${data.user}!`;
+                //console.log('Protected data:', data);
+            } catch (error) {
+                console.error('Error fetching protected data:', error);
+            }
+        }
+        // Call the function when the page loads
+        window.addEventListener('load', fetchProtectedData);
+        window.addEventListener('load', checkLoginStatus);
+    </script>
+</body>
+
+</html>
