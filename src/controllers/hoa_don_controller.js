@@ -5,19 +5,19 @@ const database = require('../../config/db');
 
 exports.show_buy_his = async (req, res, next) => {
     try {
-        const taiKhoan = req.params.tai_khoan;
+        const account = req.params.account;
 
         const sql = `
             SELECT * 
-            FROM hoa_don 
-            WHERE tai_khoan = ?
+            FROM invoice 
+            WHERE User_name = ?
         `;
 
-        const hoaDon = await database.query(sql, [taiKhoan]);
+        const hoaDon = await database.query(sql, [account]);
 
         if (!hoaDon || hoaDon.length === 0) {
             return res.status(404).json({
-                message: `Không tìm thấy hóa đơn cho tài khoản ${taiKhoan}`
+                message: `Không tìm thấy hóa đơn cho tài khoản ${account}`
             });
         }
 
@@ -29,8 +29,8 @@ exports.show_buy_his = async (req, res, next) => {
 
 exports.create_bill = async (req, res, next) => {
     try {
-        const taiKhoan = req.params.tai_khoan;
-        const { thong_tin_khach_hang, gia_tien, chi_tiet } = req.body;
+        const account = req.params.account;
+        const { thong_tin_khach_hang, gia_tien, chi_tiet, dc_shop } = req.body;
 
         // ===== 1. Hàm random 5 số =====
         const random5 = () => Math.floor(10000 + Math.random() * 90000);
@@ -45,36 +45,36 @@ exports.create_bill = async (req, res, next) => {
 
         // ===== 3. Insert bảng hóa đơn =====
         const sqlInsertHoaDon = `
-            INSERT INTO hoa_don
-            (ma_hoa_don, tai_khoan, thoi_gian_mua_hang, gia_tien,
-             thong_tin_khach_hang, ma_van_don, dia_chi_sieu_thi, trang_thai)
+            INSERT INTO invoice
+            (Inv_id, User_name, created_At, Inv_price,
+             Cus_info, Track_num, shop_address, status)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         await database.query(sqlInsertHoaDon, [
             maHoaDon,
-            taiKhoan,
+            account,
             thoi_gian_mua_hang,
             finalGiaTien,
             thongTinKH,
             maVanDon,
-            "Hà Nội",
+            dc_shop,
             "Chờ"
         ]);
 
         // ===== 4. Insert chi tiết (nếu có) =====
         if (Array.isArray(chi_tiet)) {
             const sqlInsertCT = `
-                INSERT INTO dong_hang_hoa
-                (ma_hoa_don, ma_san_pham, so_luong)
+                INSERT INTO line
+                (Inv_id, Prod_id, quantity)
                 VALUES (?, ?, ?)
             `;
 
             for (const item of chi_tiet) {
                 await database.query(sqlInsertCT, [
                     maHoaDon,
-                    item.ma_san_pham,
-                    item.so_luong
+                    item.Prod_id,
+                    item.quantity
                 ]);
             }
         }
@@ -86,7 +86,7 @@ exports.create_bill = async (req, res, next) => {
                 ma_hoa_don: maHoaDon,
                 thoi_gian_mua_hang: thoi_gian_mua_hang,
                 ma_van_don: maVanDon,
-                tai_khoan: taiKhoan,
+                tai_khoan: account,
                 gia_tien: finalGiaTien,
                 trang_thai: "Chờ"
             }
@@ -101,7 +101,7 @@ exports.xu_ly_don_hang = async (req, res) => {
     try {
         const { ma_hoa_don, trang_thai } = req.body;
         const rows = await database.query(
-            "SELECT * FROM test_pttk.hoa_don WHERE ma_hoa_don = ? AND trang_thai = 'Chờ'",
+            "SELECT * FROM test_pttk.invoice WHERE Inv_id = ? AND status = 'Chờ'",
             [ma_hoa_don]
         );
 

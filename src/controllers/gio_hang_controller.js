@@ -7,11 +7,10 @@ const database = require('../../config/db');
 exports.show_cart = async (req, res, next) => {
     try {
             const taiKhoan = req.params.tai_khoan;
-    
             const sql = `
                 SELECT * 
-                FROM gio_hang 
-                WHERE tai_khoan = ?
+                FROM cart 
+                WHERE User_name = ?
             `;
     
             const gio_hang = await database.query(sql, [taiKhoan]);

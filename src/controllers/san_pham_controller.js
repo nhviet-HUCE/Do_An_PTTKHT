@@ -9,7 +9,7 @@ exports.product_status = async (req, res) => {
         const status = req.params.status;
 
         const rows = await database.query(
-            "SELECT * FROM test_pttk.hang_hoa WHERE trang_thai = ?",
+            "SELECT * FROM test_pttk.product WHERE prod_status = ?",
             [status]
         );
 
@@ -28,14 +28,18 @@ exports.product_status = async (req, res) => {
 };
 
 
+
 exports.toggle_product_status = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const result = await database.execute(
-            `UPDATE test_pttk.hang_hoa
-             SET trang_thai = NOT trang_thai
-             WHERE ma_san_pham = ?`,
+        const [result] = await database.execute(
+            `UPDATE test_pttk.Product
+             SET prod_status = CASE 
+                 WHEN prod_status = 'available' THEN 'unavailable'
+                 ELSE 'available'
+             END
+             WHERE prod_id = ?`,
             [id]
         );
 
@@ -56,12 +60,13 @@ exports.toggle_product_status = async (req, res) => {
     }
 };
 
+
 exports.delete_product = async (req, res) => {
     try {
         const id = req.params.id;
 
         const result = await database.execute(
-            "DELETE FROM test_pttk.hang_hoa WHERE ma_san_pham = ?",
+            "DELETE FROM test_pttk.product WHERE prod_id = ?",
             [id]
         );
 
@@ -89,12 +94,12 @@ exports.modify_product = async (req, res) => {
         const data = req.body;
 
         const allowedFields = [
-            "ten",
-            "so_luong",
-            "gia_tien",
-            "the_loai",
-            "mo_ta",
-            "trang_thai"
+            "prod_name",
+            "prod_quantity",
+            "prod_price",
+            "prod_category",
+            "prod_description",
+            "prod_status"
         ];
 
         let fields = [];
@@ -115,9 +120,9 @@ exports.modify_product = async (req, res) => {
         }
 
         const sql = `
-            UPDATE test_pttk.hang_hoa
+            UPDATE test_pttk.product
             SET ${fields.join(", ")}
-            WHERE ma_san_pham = ?
+            WHERE prod_id = ?
         `;
 
         values.push(id);
@@ -163,7 +168,7 @@ exports.add_product = async (req, res) => {
 
         
         const rows = await database.query(
-            "SELECT ma_san_pham FROM test_pttk.hang_hoa WHERE ma_san_pham = ?",
+            "SELECT ma_san_pham FROM test_pttk.product WHERE prod_id = ?",
             [ma_san_pham]
         );
 
@@ -176,8 +181,9 @@ exports.add_product = async (req, res) => {
 
         
         const result = await database.execute(
-            `INSERT INTO test_pttk.hang_hoa
-             (ma_san_pham, ten, so_luong, gia_tien, the_loai, mo_ta, trang_thai)
+            `INSERT INTO test_pttk.product
+             (prod_id, prod_name, prod_quantity, prod_price, 
+             prod_category, prod_description, prod_status)
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [ma_san_pham, ten, so_luong, gia_tien, the_loai, mo_ta, trang_thai]
         );
