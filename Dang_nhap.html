@@ -20,13 +20,13 @@
 
         /* --- HEADER --- */
         header {
-            background-color: #72bbf5; /* Màu xanh nước biển header */
+            background-color: #72bbf5;
             display: flex;
-            justify-content: flex-start; /* Đổi thành flex-start để các phần tử dồn về bên trái sát logo */
+            justify-content: flex-start; 
             align-items: center;
             padding: 25px 40px; 
             position: relative;
-            gap: 40px; /* Khoảng cách giữa Logo và Khối tìm kiếm/hành động */
+            gap: 40px;
         }
 
         .logo-area {
@@ -36,7 +36,7 @@
             font-weight: bold;
             font-style: italic;
             cursor: pointer;
-            flex-shrink: 0; /* Giữ nguyên kích thước logo không bị co lại */
+            flex-shrink: 0; 
         }
 
         .logo-area i {
@@ -49,14 +49,14 @@
         .header-right-group {
             display: flex;
             align-items: center;
-            gap: 25px; /* Khoảng cách giữa thanh tìm kiếm và Đăng nhập/Giỏ hàng */
+            gap: 25px; 
             width: 100%;
             max-width: 750px; 
         }
 
         .search-bar {
             width: 100%;
-            max-width: 400px; /* Giới hạn độ dài thanh tìm kiếm */
+            max-width: 400px; 
             position: relative;
         }
 
@@ -108,7 +108,7 @@
 
         /* --- NAVIGATION BAR & DROPDOWN --- */
         nav {
-            background-color: #fbd015; /* Màu vàng */
+            background-color: #fbd015; 
             display: flex;
             justify-content: center;
             padding: 12px 0;
@@ -354,11 +354,11 @@
             <i class="fa-solid fa-tablet-screen-button"></i> Tablet <i class="fa-solid fa-chevron-down"></i>
             <div class="dropdown-content">
                 <a href="#" class="dropdown-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/522/280717/s16/ipad-gen-9-silver-650x650.png" alt="Máy tính bảng">
+                    <img src="#" alt="Máy tính bảng">
                     <span>Máy tính bảng</span>
                 </a>
                 <a href="#" class="dropdown-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/522/293674/s16/may-doc-sach-boox-poke-4-lite-den-650x650.png" alt="Máy đọc sách">
+                    <img src="#" alt="Máy đọc sách">
                     <span>Máy đọc sách</span>
                 </a>
             </div>
@@ -412,7 +412,7 @@
     </main>
 
     <script>
-    // URL API Backend xử lý đăng nhập (Thay đổi theo hệ thống thực tế của bạn)
+    // URL API Backend xử lý đăng nhập
     const API_LOGIN_URL = "http://localhost:3000/api/auth/login";
 
     document.getElementById('loginForm').addEventListener('submit', async function(event) {
