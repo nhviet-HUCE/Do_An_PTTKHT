@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: #72bbf5;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 25px 40px; 
+            position: relative;
+            gap: 40px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            font-style: italic;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .logo-area i {
+            font-size: 40px;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .header-right-group {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 750px; 
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            border-radius: 30px;
+            border: 1px solid #333;
+            padding: 10px 20px 10px 40px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #333;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .action-item i {
+            font-size: 22px;
+        }
+
+        .help-link-top {
+            position: absolute;
+            top: 8px;
+            right: 40px;
+            font-size: 12px;
+            color: #1c5b8e;
+            text-decoration: none;
+        }
+
+        /* --- NAVIGATION BAR & DROPDOWN --- */
+        nav {
+            background-color: #fbd015;
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+            gap: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            position: relative;
+            padding: 5px 8px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-item i.fa-chevron-down {
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            min-width: 220px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 15px;
+            z-index: 100;
+            margin-top: 10px;
+        }
+
+        .dropdown-content::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 8px 8px 8px;
+            border-style: solid;
+            border-color: transparent transparent #fff transparent;
+        }
+
+        .nav-item:hover .dropdown-content {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .dropdown-item img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            transition: transform 0.2s;
+        }
+
+        .dropdown-item:hover img {
+            transform: translateY(-3px);
+        }
+
+        .dropdown-item:hover span {
+            color: #2b7bc5;
+            font-weight: bold;
+        }
+
+        /* --- MAIN CONTENT: REGISTER SECTION --- */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Đổi thành center để căn giữa theo chiều dọc */
+            padding: 50px 20px;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .illustration-container {
+            flex: 1;
+            max-width: 500px;
+            height: 500px;
+            background-color: #f6f8fb;
+            border-radius: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a0b2c1;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #eef1f5;
+        }
+
+        .register-box {
+            background-color: #5bbbf7;
+            width: 420px;
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #4aace8;
+        }
+
+        .register-box h2 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 30px;
+            border: 1px solid #1c5b8e;
+            font-size: 15px;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .input-group input::placeholder {
+            color: #b5aeb2;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #4da6e7;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        .form-options a {
+            font-size: 12px;
+            color: #2b7bc5;
+            text-decoration: none;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid #b3cce6;
+            background-color: #e5efff;
+            font-size: 18px;
+            font-weight: 500;
+            color: #000;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #d0e1ff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="help-link-top">Bạn cần giúp đỡ?</a>
+        <div class="logo-area">
+            <i class="fa-solid fa-globe"></i>
+            <div>sieuthicongnghe<br><span style="font-size: 14px;">.com</span></div>
+        </div>
+        
+        <div class="header-right-group">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Mua Online giá rẻ hơn">
+            </div>
+
+            <div class="header-actions">
+                <div class="action-item">
+                    <i class="fa-regular fa-circle-user"></i>
+                    <span>Đăng ký</span>
+                </div>
+                <div class="action-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Giỏ hàng</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-item"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</div>
+        <div class="nav-item"><i class="fa-solid fa-laptop"></i> Laptop</div>
+        <div class="nav-item"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="nav-item"><i class="fa-regular fa-clock"></i> Smartwatch</div>
+        <div class="nav-item"><i class="fa-regular fa-clock"></i> Đồng hồ</div>
+        <div class="nav-item">
+            <i class="fa-solid fa-tablet-screen-button"></i> Tablet <i class="fa-solid fa-chevron-down"></i>
+            <div class="dropdown-content">
+                <a href="#" class="dropdown-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/522/280717/s16/ipad-gen-9-silver-650x650.png" alt="Máy tính bảng">
+                    <span>Máy tính bảng</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/522/293674/s16/may-doc-sach-boox-poke-4-lite-den-650x650.png" alt="Máy đọc sách">
+                    <span>Máy đọc sách</span>
+                </a>
+            </div>
+        </div>
+        <div class="nav-item"><i class="fa-solid fa-mobile-screen"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="nav-item"><i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="nav-item"><i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="nav-item"><i class="fa-solid fa-bolt"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down"></i></div>
+    </nav>
+
+    <main>
+        <div class="illustration-container">
+            <div>[Ảnh trang trí]</div>
+        </div>
+
+        <div class="register-box">
+            <h2>Đăng Ký</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <i class="fa-regular fa-user"></i>
+                    <input type="text" id="fullName" placeholder="Họ và tên">
+                </div>
+                <div class="input-group">
+                    <i class="fa-regular fa-user"></i>
+                    <input type="text" id="userName" placeholder="Tên tài khoản">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <input type="text" id="phoneInput" placeholder="Nhập số điện thoại mua hàng">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="passwordInput" placeholder="Nhập mật khẩu">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="confirmPasswordInput" placeholder="Xác nhận lại mật khẩu">
+                </div>
+
+                <div class="form-options">
+                    <a href="Dang_nhap.html">Đã có tài khoản? Đăng nhập ngay</a>
+                </div>
+                
+                <button type="submit" class="submit-btn">Đăng ký</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const userName = document.getElementById('userName').value;
+            const phone = document.getElementById('phoneInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+            if (password !== confirmPassword) {
+                alert("Mật khẩu xác nhận không khớp!");
+                return;
+            }
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ User_name: userName, full_name: fullName, phone_number: phone, User_password: password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Đăng ký thành công! Vui lòng đăng nhập.');
+                    window.location.href = 'Dang_nhap.html';
+                    return;
+                } else {
+                    alert('Đăng ký thất bại: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

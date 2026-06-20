@@ -6,16 +6,16 @@
     <title>Admin Page</title>
 </head>
 <body>
-    <header>
+    <div id="header">
         <h1>Trang chủ admin</h1>
         <div id="nav">
             <p id="username"></p>
-            <a href="login.html" id="signed" onclick="logout()">Đăng xuất</a>
+            <a href="Dang_nhap.html" id="signed" onclick="logout()">Đăng xuất</a>
         </div>
-    </header>
-    <main>
+    </div>
+    <div id="main-content">
         <p>Xin chào, đây là trang chủ!</p>
-    </main>
+    </div>
     <script>
         async function fetchAdminData() {
             const token = localStorage.getItem('token');
@@ -33,13 +33,13 @@
         }
         function logout() {
             localStorage.removeItem('token');
-            window.location.href = 'login.html';
+            window.location.href = 'Dang_nhap.html';
         }
         function checkLoginStatus() {
             const token = localStorage.getItem('token');
             if (!token) {
                 alert('You must be logged in to access this page.');
-                window.location.href = 'login.html';
+                window.location.href = 'Dang_nhap.html';
             }
         }
         checkLoginStatus();

@@ -60,8 +60,8 @@
         </search>
         <div id="nav">
             <p id="username"></p>
-            <a href="register.html" id="register-link"></a>
-            <a href="login.html" id="signed"></a>
+            <a href="Dang_ky.html" id="register-link"></a>
+            <a href="Dang_nhap.html" id="signed"></a>
         </div>
     </header>
     <main>
@@ -78,14 +78,14 @@
                 signedInLink.href = '#';
                 signedInLink.addEventListener('click', () => {
                     localStorage.removeItem('token');
-                    window.location.href = 'login.html';
+                    window.location.href = 'Dang_nhap.html';
                 });
             } else {
                 usernameDisplay.textContent = 'Xin chào, khách!';
                 signedInLink.textContent = 'Đăng nhập';
                 registerLink.textContent = 'Đăng ký';
-                signedInLink.href = 'login.html';
-                registerLink.href = 'register.html';
+                signedInLink.href = 'Dang_nhap.html';
+                registerLink.href = 'Dang_ky.html';
             }
         }
         async function fetchProtectedData() {
