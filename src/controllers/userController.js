@@ -82,6 +82,19 @@ exports.createUser = async (req, res, next) => {
         next(err);
     }
 };
+exports.addMember = async (req, res, next) => {
+    try {
+        const { User_name, address } = req.body;
+        const sql = 'insert into member (User_name, address) values (?,?)';
+        await db.execute(sql,[User_name, address]);
+        res.json({
+            message: "Thêm thành viên thành công",
+            data: { User_name, address },
+        });
+    } catch (err) {
+        next(err);
+    }
+};
 exports.deleteUser = async (req, res, next) => {
     try {
         const sql = 'delete from user where id=?';

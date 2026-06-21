@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quản lý sản phẩm - Siêu Thị Công Nghệ</title>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+
+    <link rel="stylesheet" href="ad.css">
+</head>
+
+<body>
+
+  
+    <div class="header">
+        <div class="header-logo">
+            <i class="ti ti-world" style="font-size:22px;color:#1a7fc4;"></i>
+            <span>sieuthicongnghe.com</span>
+        </div>
+<!-- 
+        <div class="header-search">
+            <i class="ti ti-search"></i>
+            <input type="text" placeholder="">
+        </div> -->
+
+        <div class="header-right">
+            
+
+            <div class="hdr-mgr">
+                <i class="ti ti-user-circle"></i>
+                <span>Quản lí: <span id="header-manager"></span></span>
+            </div>
+
+            <div class="hdr-cart" onclick="goLogin()">
+                <i class="ti ti-logout"></i>
+                <span>Đăng xuất</span>
+            </div>
+        </div>
+    </div>
+
+  
+    <div class="nav-bar">
+        <div class="nav-item" id="nav-date"></div>
+        <div class="nav-item">Quản lý sản phẩm</div>
+        <div class="nav-item">
+            Quản lí :
+            <span id="nav-manager"></span>
+        </div>
+    </div>
+
+    <div class="main">
+
+        
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <span class="panel-title">
+                    Quản lý sản phẩm
+                </span>
+
+                <input
+                    class="pill-input"
+                    id="inp-ten"
+                    type="text"
+                    placeholder="Điền thông tin sản phẩm"
+                    style="width:300px;">
+                
+
+                
+
+                <button class="settings-btn" title="Cài đặt">
+                    <i class="ti ti-settings"></i>
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>Tên sản phẩm </th>
+                      <th>Thông số</th>
+                      <th>Thể loại</th>
+                      <th>Trạng thái</th>
+                      <th>Số lượng</th>
+                      <th>Giá tiền</th>
+                      <th>Chọn</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tbl-body">
+                    <tr>
+                        <td colspan="6" class="empty-note">
+                            Chưa kết nối  — bảng trống
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="panel-actions">
+
+                <button class="btn-xoa" onclick="deleteProduct()">
+                    <i class="ti ti-trash"></i>
+                    Xóa
+                </button>
+
+                <button class="btn-them" onclick="addProduct()">
+                    <i class="ti ti-plus"></i>
+                    Thêm
+                </button>
+
+            </div>
+
+        </div>
+       
+        <div class="detail-panel">
+
+            <div class="detail-img">
+
+                <div class="detail-img-box">
+                    <img
+                        id="img-preview"
+                        src=""
+                        alt="Ảnh sản phẩm">
+
+                    <i
+                        class="ti ti-photo"
+                        id="img-placeholder"
+                        style="font-size:40px;color:#b0cfe8;">
+                    </i>
+                </div>
+
+                <span>Ảnh sản phẩm</span>
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    id="img-upload"
+                    style="display:none"
+                    onchange="previewImg(event)">
+
+                <button
+                    class="btn-chon-anh"
+                    onclick="document.getElementById('img-upload').click()">
+
+                    Chọn ảnh
+
+                </button>
+
+            </div>
+
+            <div class="detail-fields">
+
+                <div class="detail-lbl">
+                    Thông số sản phẩm
+                </div>
+
+                <input
+                    class="detail-input-full"
+                    id="f-thongso"
+                    type="text"
+                    placeholder="">
+
+                <div class="detail-row">
+
+                    <div class="df">
+                       <label>Thể loại sản phẩm</label>
+                       <input id="f-theloai" type="text">
+                    </div>
+
+                    <div class="df">
+                        <label>Tên sản phẩm</label>
+                        <input id="f-ten" type="text">
+                    </div>
+
+                    <div class="df">
+                        <label>Trạng thái</label>
+                        <input id="f-trangthai" type="text">
+                    </div>
+
+                    <div class="df">
+                         <label>Số lượng</label>
+                        <input id="f-sl" type="number">
+                    </div>
+
+
+                    <div class="df">
+                       <label>Giá tiền</label>
+                       <input id="f-gia" type="text">
+                    </div>
+
+                </div>
+                
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="ad.js"></script>
+
+</body>
+
+</html>
