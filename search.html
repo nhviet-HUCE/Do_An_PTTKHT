@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả tìm kiếm - Siêu thị công nghệ</title>
+    <link rel="stylesheet" href="Trangchu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
+            <div class="header-main">
+                <a href="Trangchu.html" class="logo">
+    <i class="fa-solid fa-globe"></i>
+    <div class="logo-text">
+        <span class="brand">sieuthicongnghe</span>
+        <span class="domain">.com</span>
+    </div>
+</a>
+
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+                </div>
+
+                <div class="user-actions">
+                    <div class="user-info">
+                        <i class="fa-regular fa-circle-user"></i>
+                        <span>Tên khách hàng</span>
+                    </div>
+                    <div class="cart-info">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
+                <li><a href="#"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Tai nghe</a></li>
+                        <li><a href="#">Cáp, Sạc</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
+                <li><a href="#"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="search-container">
+            <div class="search-header">
+                <h2 class="search-title">Kết quả tìm kiếm cho: <span id="keyword-display" style="color: #d32f2f;">"Iphone"</span></h2>
+                <div class="sort-options">
+                    <label for="sort">Sắp xếp theo:</label>
+                    <select id="sort">
+                        <option value="newest">Mới nhất</option>
+                        <option value="price-asc">Giá: Thấp đến Cao</option>
+                        <option value="price-desc">Giá: Cao đến Thấp</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="product-grid" id="search-results">
+                
+                <div class="product-card">
+                    <img src="https://placehold.co/200x200/png?text=Iphone+17+Promax" alt="Iphone 17 promax">
+                    <h3 class="product-name" title="Iphone 17 promax">Iphone 17 promax</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">Super Retina XDR</span>
+                        <span class="spec-tag">6.9"</span>
+                    </div>
+                    <div class="product-price">36.990.000₫</div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://placehold.co/200x200/png?text=Iphone+16" alt="Iphone 16">
+                    <h3 class="product-name" title="Iphone 16">Iphone 16</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">Retina IPS LCD</span>
+                        <span class="spec-tag">11"</span>
+                    </div>
+                    <div class="product-price">9.290.000₫</div>
+                </div>
+
+                </div>
+
+            <div class="pagination">
+                <a href="#" class="page-item active">1</a>
+                <a href="#" class="page-item">2</a>
+                <a href="#" class="page-item">3</a>
+                <a href="#" class="page-item"><i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const keyword = urlParams.get('q');
+        
+        if(keyword) {
+            document.getElementById('keyword-display').innerText = `"${keyword}"`;
+            document.getElementById('searchInput').value = keyword;
+        }
+    </script>
+
+</body>
+</html>
