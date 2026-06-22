@@ -7,8 +7,8 @@ class Database {
         this._pool = mysql.createPool({
             host: process.env.db_host || "localhost",
             user: process.env.db_user || "root",
-            password: process.env.db_pass || "12345678",
-            database: process.env.db_name || "Nodejs",
+            password: process.env.db_pass || "Hoangv1et2",
+            database: process.env.db_name || "test_pttk",
         })
         Database._instance = this;
     }
