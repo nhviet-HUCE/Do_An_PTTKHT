@@ -377,9 +377,11 @@
                 <span style="font-size: 12px; color: #666;">(Các sản phẩm sẽ thêm sau)</span>
             </div>
         </div>
+
         <div class="nav-item">
             <i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down"></i>
         </div>
+
         <div class="nav-item">
             <i class="fa-solid fa-bolt"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down"></i>
         </div>
@@ -432,6 +434,7 @@
                 if (data.token) {
                     alert('Đăng nhập thành công');
                     localStorage.setItem('token', data.token);
+                    localStorage.setItem('User_name', data.user.User_name);
                 } else {
                     alert('Đăng nhập thất bại: ' + data.message);
                 }
@@ -439,7 +442,8 @@
                 if (data.user.role === "admin") {
                     return window.location.href = 'ad.html';
                 }
-                return window.location.href = 'dashboard.html';
+                return window.location.href = '../Xem_lich_su.html';
+                
             } catch (error) {
                 console.error('Error:', error);
             }

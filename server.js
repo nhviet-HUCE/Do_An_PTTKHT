@@ -1,7 +1,7 @@
 require('dotenv').config()
 const app=require('./app')
 const db=require('./config/db');
-const port = process.env.PORT ||3000;
+const port = process.env.PORT ||8080;
 
 app.use((req,res)=>{
   res.status(404).send({url:req.originalUrl +' not found'});

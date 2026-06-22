@@ -8,20 +8,25 @@ exports.show_user_bills = async (req, res, next) => {
         const account = req.params.User_name;
 
         const sql = `
-            SELECT * 
-            FROM invoice 
-            WHERE User_name = ?
+            SELECT 
+                i.Inv_id,
+                i.User_name,
+                i.created_At,
+                i.Inv_price,
+                i.status,
+                l.Prod_id,
+                l.quantity,
+                p.prod_name,
+                p.prod_price
+            FROM invoice i
+            LEFT JOIN line l ON i.Inv_id = l.Inv_id
+            LEFT JOIN product p ON l.Prod_id = p.prod_id
+            WHERE i.User_name = ?
         `;
 
         const hoaDon = await database.query(sql, [account]);
 
-        if (!hoaDon || hoaDon.length === 0) {
-            return res.status(404).json({
-                message: `Không tìm thấy hóa đơn cho tài khoản ${account}`
-            });
-        }
-
-        res.json(hoaDon);
+        return res.json(hoaDon || []);
     } catch (err) {
         next(err);
     }
