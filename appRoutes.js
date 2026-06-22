@@ -10,6 +10,6 @@ routes.use('/users',userRoutes);
 routes.use('/auth',authRoutes);
 routes.use('/cart',cartRoutes);
 routes.use('/products',productRoutes);
-routes.use('/invoices',invoiceRoutes);
+// routes.use('/invoices',invoiceRoutes);
 
 module.exports=routes;
