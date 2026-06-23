@@ -2,6 +2,7 @@
 const util = require('util');
 const database = require('../../config/db');
 const { error } = require('console');
+const { json } = require('stream/consumers');
 
 // Cái product_status này chỉ chọn thôi, toogle ở dưới mới là sửa
 exports.get_product_status = async (req, res) => {
@@ -64,6 +65,51 @@ exports.toggle_product_status = async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: err.message });
+    }
+};
+
+
+exports.get_single_product = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const result = await database.execute(
+            'SELECT * FROM test_pttk.product WHERE prod_id = ?',
+            [id]
+        );
+
+        console.log("RAW RESULT:", result);
+
+        let rows;
+
+        // Trường hợp mysql2/promise trả về: [rows, fields]
+        if (Array.isArray(result) && Array.isArray(result[0])) {
+            rows = result[0];
+        } 
+        // Trường hợp database wrapper của bạn trả thẳng rows
+        else {
+            rows = result;
+        }
+
+        console.log("ROWS:", rows);
+
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                message: 'Không tìm thấy sản phẩm'
+            });
+        }
+
+        console.log("PRODUCT:", JSON.stringify(rows[0], null, 2));
+
+        return res.status(200).json(rows[0]);
+
+    } catch (error) {
+        console.error("Lỗi get_single_product:", error);
+
+        return res.status(500).json({
+            message: 'Lỗi server',
+            error: error.message
+        });
     }
 };
 

@@ -8,5 +8,5 @@ router.put("/toggle/:id", productController.toggle_product_status);
 router.put("/:id", productController.modify_product);
 router.post("", productController.add_product);
 router.delete("/:id", productController.delete_product);
-
+router.get("/detail/:id", productController.get_single_product);
 module.exports = router;
