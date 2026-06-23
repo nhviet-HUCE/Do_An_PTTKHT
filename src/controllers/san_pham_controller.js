@@ -36,7 +36,44 @@ exports.get_all_products = async (req, res) => {
         return res.status(500).json({ error: err.message });
      }
 }
+exports.get_product_by_id = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const rows = await database.query(
+            "SELECT * FROM product WHERE prod_id = ?",
+            [id]
+        );
 
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                message: `Không tìm thấy sản phẩm với id ${id}`
+            });
+        }
+        return res.json(rows[0]);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: err.message });
+    }
+}
+exports.get_product_by_keyword = async (req, res) => {
+    try {
+        const keyword = req.params.keyword;
+        const rows = await database.query(
+            "SELECT * FROM product WHERE prod_name LIKE ?",
+            [`%${keyword}%`]
+        );
+
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                message: `Không tìm thấy sản phẩm với từ khóa ${keyword}`
+            });
+        }
+        return res.json(rows);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: err.message });
+    }
+}
 exports.toggle_product_status = async (req, res) => {
     try {
         const id = req.params.id;
@@ -156,17 +193,17 @@ exports.modify_product = async (req, res) => {
 exports.add_product = async (req, res) => {
     try {
         const {
-            ma_san_pham,
-            ten,
-            so_luong,
-            gia_tien,
-            the_loai,
-            mo_ta,
-            trang_thai
+            prod_name,
+            prod_quantity,
+            prod_price,
+            prod_category,
+            prod_description,
+            prod_status
         } = req.body;
-
+        const random5= ()=>Math.floor(10000 + Math.random() * 90000);
+        const prod_id = "SP" +random5();
         
-        if (!ma_san_pham || !ten || !so_luong || !gia_tien) {
+        if (!prod_id || !prod_name || !prod_quantity || !prod_price) {
             return res.status(400).json({
                 success: false,
                 message: "Thiếu dữ liệu bắt buộc"
@@ -174,13 +211,13 @@ exports.add_product = async (req, res) => {
         }       
         const rows = await database.query(
             "SELECT prod_id FROM product WHERE prod_id = ?",
-            [ma_san_pham]
+            [prod_id]
         );
 
         if (rows.length > 0) {
             return res.status(400).json({
                 success: false,
-                message: `Mã sản phẩm ${ma_san_pham} đã tồn tại`
+                message: `Mã sản phẩm ${prod_id} đã tồn tại`
             });
         }       
         const result = await database.execute(
@@ -188,7 +225,7 @@ exports.add_product = async (req, res) => {
              (prod_id, prod_name, prod_quantity, prod_price, 
              prod_category, prod_description, prod_status)
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [ma_san_pham, ten, so_luong, gia_tien, the_loai, mo_ta, trang_thai]
+            [prod_id, prod_name, prod_quantity, prod_price, prod_category, prod_description, prod_status]
         );
 
         return res.json({
