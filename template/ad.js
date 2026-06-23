@@ -167,22 +167,39 @@ function renderTable() {
             "<td>" +
             fmtGia(p.prod_price) +
             " đ</td>" +
-            '<td><input type="radio" class="radio-btn" name="chon" ' +
+            '<td><input type="checkbox" class="select-product" ' +
             (selectedIdx === i ? "checked" : "") +
             "></td>";
 
         (function (idx) {
 
-            tr.querySelector(
-                'input[type="radio"]'
-            ).addEventListener(
-                "change",
-                function () {
-                    selectProduct(idx);
-                }
-            );
+          const checkbox =
+            tr.querySelector(".select-product");
 
-        })(i);
+          checkbox.addEventListener(
+           "click",
+            function () {
+
+            if (selectedIdx === idx) {
+
+                // Bỏ chọn
+                selectedIdx = -1;
+                selectedProductId = null;
+
+                clearForm();
+
+                renderTable();
+
+                return;
+            }
+
+            // Chọn sản phẩm mới
+            selectProduct(idx);
+
+        }
+    );
+
+})(i);
 
         tbody.appendChild(tr);
 
@@ -246,16 +263,27 @@ function selectProduct(idx) {
 
     document.getElementById("f-sl").value =
         p.prod_quantity || 1;
-    if (p.image) {
+    if (p.prod_img) {
 
         document.getElementById("img-preview").src =
-            API_URL + p.image;
+             p.prod_img;
 
         document.getElementById("img-preview").style.display =
             "block";
 
         document.getElementById("img-placeholder").style.display =
             "none";
+
+    }
+    else {
+
+        document.getElementById("img-preview").src = "";
+
+        document.getElementById("img-preview").style.display =
+            "none";
+
+        document.getElementById("img-placeholder").style.display =
+            "block";
 
     }
 
@@ -285,31 +313,7 @@ async function addProduct() {
         return;
     }
 
-    var now = new Date();
-    var pad = function (n) {
-        return String(n).padStart(2, "0");
-    };
-
-    var ngay =
-        pad(now.getDate()) + "/" +
-        pad(now.getMonth() + 1) + "/" +
-        now.getFullYear();
-    if (selectedIdx >= 0 && selectedIdx < products.length) {
-        await apiUpdateProduct(selectedProductId,
-            {
-                prod_name,
-                prod_quantity,
-                prod_price,
-                prod_category,
-                prod_description,
-                prod_status
-            }
-        );
-
-        selectedIdx = -1;
-        loadProducts();
-        return;
-    }
+        
     // console.log({
     //     prod_name,
     //     prod_quantity,
@@ -330,7 +334,54 @@ async function addProduct() {
     clearForm();
     loadProducts();
 }
+//cập nhật sản phẩm
+async function updateProduct() {
 
+    if (selectedProductId == null) {
+
+        alert("Vui lòng chọn sản phẩm cần cập nhật!");
+        return;
+    }
+
+    var prod_name =
+        document.getElementById("f-ten").value.trim();
+
+    var prod_description =
+        document.getElementById("f-thongso").value.trim();
+
+    var prod_category =
+        document.getElementById("f-theloai").value.trim();
+
+    var prod_status =
+        document.getElementById("f-trangthai").value.trim();
+
+    var prod_price =
+        parseFloat(document.getElementById("f-gia").value) || 1;
+
+    var prod_quantity =
+        parseInt(document.getElementById("f-sl").value) || 1;
+
+    await apiUpdateProduct(
+        selectedProductId,
+        {
+            prod_name,
+            prod_quantity,
+            prod_price,
+            prod_category,
+            prod_description,
+            prod_status
+        }
+    );
+
+    alert("Cập nhật thành công!");
+
+    selectedIdx = -1;
+    selectedProductId = null;
+
+    clearForm();
+
+    loadProducts();
+}
 
 // xóa
 
@@ -377,6 +428,12 @@ function clearForm() {
         document.getElementById(id).value = "";
 
     });
+    document.getElementById("img-preview").src = "";
+    document.getElementById("img-preview").style.display =
+    "none";
+
+    document.getElementById("img-placeholder").style.display =
+    "block"; 
 
 }
 
