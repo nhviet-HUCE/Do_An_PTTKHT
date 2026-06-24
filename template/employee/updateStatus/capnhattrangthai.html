@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cập nhật trạng thái khả dụng sản phẩm</title>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="capnhattrangthai.css">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-logo">
+
+            <i class="fa-solid fa-globe"></i>
+
+            <div class="logo-text">
+
+                <div class="logo-name">
+                    sieuthicongnghe
+                </div>
+
+                <div class="logo-domain">
+                    .com
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="header-right">
+
+            <div class="hdr-mgr">
+
+                <i class="ti ti-user-circle"></i>
+
+                <span>
+                    Nhân viên:
+                    <span id="header-Employee">
+                        Chưa xác định
+                    </span>
+                </span>
+
+            </div>
+
+            <div class="hdr-cart" onclick="goLogin()">
+
+                <i class="ti ti-logout"></i>
+
+                <span>
+                    Đăng xuất
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- NAV BAR -->
+
+    <div class="nav-bar">
+
+        <div
+            class="nav-item"
+            id="nav-date">
+        </div>
+
+        <div
+            class="nav-item"
+            onclick="window.location.href='../orderProcessing/xulydonhang.html'">
+
+            Xử lý đơn hàng
+
+        </div>
+
+        <div class="nav-item active">
+
+            Cập nhật trạng thái khả dụng sản phẩm
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <span class="panel-title">
+                    Cập nhật trạng thái khả dụng sản phẩm
+                </span>
+
+            </div>
+
+            <table class="order-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>STT</th>
+
+                        <th>Tên sản phẩm</th>
+
+                        <th>Số lượng</th>
+
+                        <th>Giá tiền</th>
+
+                        <th>Trạng thái</th>
+
+                        <th>On/Off</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tbl-products">
+
+                    <tr>
+
+                        <td colspan="6" class="empty-note">
+
+                            Chưa có sản phẩm
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="action-bar">
+
+                
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="capnhattrangthai.js"></script>
+
+</body>
+
+</html>

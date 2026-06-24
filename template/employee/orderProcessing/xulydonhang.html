@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Xử lý đơn hàng</title>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="xulydonhang.css">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-logo">
+
+            <i class="fa-solid fa-globe"></i>
+
+            <div class="logo-text">
+
+                <div class="logo-name">
+                    sieuthicongnghe
+                </div>
+
+                <div class="logo-domain">
+                    .com
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="header-right">
+
+            <div class="hdr-mgr">
+
+                <i class="ti ti-user-circle"></i>
+
+                <span>
+                    Nhân viên:
+                    <span id="header-Employee">
+                       Chưa xác định
+                    </span>
+                </span>
+
+            </div>
+
+            <div class="hdr-cart" onclick="goLogin()">
+
+                <i class="ti ti-logout"></i>
+
+                <span>
+                    Đăng xuất
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- NAV -->
+
+    <div class="nav-bar">
+        
+
+        <div
+            class="nav-item"
+            id="nav-date">
+        
+        </div>
+
+        <div class="nav-item active">
+
+            Xử lý đơn hàng
+
+        </div>
+
+        <div
+            class="nav-item"
+            onclick="location.href='capnhattrangthai.html'">
+
+            Cập nhật trạng thái khả dụng sản phẩm
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <span class="panel-title">
+                    Xử lý đơn hàng
+                </span>
+
+            </div>
+
+            <table class="order-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Mã hóa đơn</th>
+
+                        <th>Tên sản phẩm</th>
+
+                        <th>Tên khách hàng</th>
+
+                        <th>Ngày đặt</th>
+
+                        <th>Mã vận đơn </th>
+
+                        <th>Giá tiền</th>
+
+                        <th>Chọn</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tbl-orders">
+
+                    <tr>
+
+                        <td colspan="7" class="empty-note">
+
+                            Chưa có đơn hàng
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="action-bar">
+
+                <button
+                  id="btn-delete"
+                    class="btn-delete">
+
+                   <i class="ti ti-trash"></i>
+                    
+                   Xóa
+
+                </button>
+
+                <button
+                    id="btn-approve"
+                     class="btn-approve">
+
+                  <i class="ti ti-check"></i>
+                  Duyệt
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="xulydonhang.js"></script>
+
+</body>
+
+</html>

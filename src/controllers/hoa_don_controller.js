@@ -26,7 +26,26 @@ exports.show_user_bills = async (req, res, next) => {
         next(err);
     }
 };
+exports.show_all_bills = async (req, res, next) => {
+    try {
+        const sql = `
+            SELECT * 
+            FROM invoice
+        `;
 
+        const hoaDon = await database.query(sql);
+
+        if (!hoaDon || hoaDon.length === 0) {
+            return res.status(404).json({
+                message: "Không tìm thấy hóa đơn"
+            });
+        }
+
+        res.json(hoaDon);
+    } catch (err) {
+        next(err);
+    }
+};
 exports.create_bill = async (req, res, next) => {
     try {
         const account = req.params.User_name;
