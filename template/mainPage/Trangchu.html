@@ -34,7 +34,7 @@
                 <div class="user-actions">
                     <div class="user-info">
                         <i class="fa-regular fa-circle-user"></i>
-                        <span>Tên khách hàng</span>
+                        <span id="username">Guest</span>
                     </div>
                     <div class="cart-info">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -157,7 +157,29 @@
                 return []; // Trả về mảng rỗng nếu có lỗi
             }
         }
-
+        async function fetchUserInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error("Token không tồn tại trong localStorage");
+                    return null;
+                }
+                const response = await fetch('http://localhost:8080/api/auth/protected', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const userInfo = await response.json();
+                document.getElementById('username').textContent = userInfo.user;
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+                return null; // Trả về null nếu có lỗi
+            }
+        }
         async function RenderProducts() {
 
             const productContainer = document.getElementById('product-list');
@@ -167,7 +189,6 @@
 
             try {
                 const products = await fetchProducts();
-                console.log(products); // Kiểm tra dữ liệu nhận được từ API
 
                 products.forEach(item => {
 
@@ -201,6 +222,7 @@
 
         }
         window.addEventListener('DOMContentLoaded', RenderProducts);
+        window.addEventListener('DOMContentLoaded', fetchUserInfo);
     </script>
 </body>
 
