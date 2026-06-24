@@ -35,13 +35,13 @@ exports.show_user_bills = async (req, res, next) => {
 exports.create_bill = async (req, res, next) => {
     try {
         const account = req.params.User_name;
-        const { thong_tin_khach_hang, gia_tien, chi_tiet, dc_shop } = req.body;
+        const { thong_tin_khach_hang, gia_tien, chi_tiet } = req.body;
 
         // ===== 1. Hàm random 5 số =====
         const random5 = () => Math.floor(10000 + Math.random() * 90000);
 
         // ===== 2. Sinh dữ liệu =====
-        const maHoaDon = "HD" + random5();
+        const maHoaDon = "INV" + random5();
         const maVanDon = "VD" + random5();
         const thoi_gian_mua_hang = new Date();
 
@@ -63,7 +63,7 @@ exports.create_bill = async (req, res, next) => {
             finalGiaTien,
             thongTinKH,
             maVanDon,
-            dc_shop,
+            "Hà Nội",
             "Chờ"
         ]);
 

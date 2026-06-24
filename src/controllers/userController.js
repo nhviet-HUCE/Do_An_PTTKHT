@@ -104,3 +104,18 @@ exports.deleteUser = async (req, res, next) => {
         next(err)
     }
 };
+
+exports.updateAddress = async (req, res, next) => {
+    try {
+        const { User_name, address } = req.body;
+        // Cập nhật address trong bảng member
+        const sql = 'UPDATE member SET address = ? WHERE User_name = ?';
+        await db.execute(sql, [address, User_name]);
+        res.json({ 
+            message: "Cập nhật địa chỉ thành công",
+            data: { User_name, address }
+        });
+    } catch (err) {
+        next(err);
+    }
+};

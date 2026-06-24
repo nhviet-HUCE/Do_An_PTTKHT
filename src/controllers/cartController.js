@@ -2,7 +2,19 @@ const db=require('../../config/db');
 
 exports.getCartByUserId = async (req, res, next) => {
     try {
-        const sql = 'select * from cart where user_id=?';
+        const sql = `
+        SELECT 
+            c.User_name,
+            c.prod_id,
+            c.quantity,
+            p.prod_name,
+            p.prod_price,
+            p.prod_category
+        FROM test_pttk.cart c
+        JOIN test_pttk.product p ON c.prod_id = p.prod_id
+        WHERE c.User_name = ?
+        `;
+
         const cart = await db.query(sql, [req.params.userId]);
         if (!cart) return res.status(404).json({ message: 'Cart not found' });
         res.json(cart);
