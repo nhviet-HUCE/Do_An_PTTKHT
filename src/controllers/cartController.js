@@ -53,3 +53,43 @@ exports.removeFromCart = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.updateQty = async (req, res, next) => {
+    try {
+        const { prod_id, change } = req.body;
+        // Lấy số lượng hiện tại
+        const selectSql = 'SELECT quantity FROM cart WHERE prod_id = ?';
+        const result = await db.query(selectSql, [prod_id]);
+        
+        if (!result || result.length === 0) {
+            return res.status(404).json({ message: 'Product not in cart' });
+        }
+
+        let newQuantity = result[0].quantity + change;
+        
+        // Nếu số lượng <= 0 thì xóa khỏi giỏ
+        if (newQuantity <= 0) {
+            const deleteSql = 'DELETE FROM cart WHERE prod_id = ?';
+            await db.execute(deleteSql, [prod_id]);
+            return res.json({ message: 'Item removed from cart' });
+        }
+
+        // Cập nhật số lượng
+        const updateSql = 'UPDATE cart SET quantity = ? WHERE prod_id = ?';
+        await db.execute(updateSql, [newQuantity, prod_id]);
+        res.json({ message: 'Cart quantity updated', quantity: newQuantity });
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.deleteCartItem = async (req, res, next) => {
+    try {
+        const { prod_id } = req.body;
+        const sql = 'DELETE FROM cart WHERE prod_id = ?';
+        await db.execute(sql, [prod_id]);
+        res.json({ message: 'Item removed from cart' });
+    } catch (err) {
+        next(err);
+    }
+};

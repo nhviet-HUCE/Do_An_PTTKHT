@@ -51,7 +51,7 @@ exports.loadCurrentUser = async (req, res, next) => {
 };
 exports.getUserByUsername = async (req, res, next) => {
     try {
-        const sql = 'select * from user where User_name=?';
+        const sql = 'select u.*, m.address from user u LEFT JOIN member m ON u.User_name = m.User_name where u.User_name=?';
         const user = await db.query(sql, [req.params.username]);
         if (!user) return res.status(404).json({ message: 'User not found' });
         res.json(user[0]);

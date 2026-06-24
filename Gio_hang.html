@@ -105,7 +105,7 @@
                 <span>Tổng tiền</span>
                 <span id="tracking-total">0đ</span>
             </div>
-            <button class="btn-primary btn-cancel">Hủy đơn</button>
+            <button class="btn-primary btn-cancel" onclick="cancelMultipleOrders()">Hủy đơn được chọn</button>
         </div>
     </div>
 </div>
@@ -140,15 +140,15 @@
             
             const customer = await response.json();
 
-            document.getElementById('cust-name').value = customer[0]?.name || '';
-            document.getElementById('cust-phone').value = customer[0]?.phone_num || '';
+            document.getElementById('cust-name').value = customer?.name || '';
+            document.getElementById('cust-phone').value = customer?.phone_num || '';
             
             // Lưu username vào biến global để dùng sau
             window.currentUsername = username;
             
             // Nếu có address trong member table, điền vào
-            if(customer[0]?.address) {
-                document.getElementById('cust-address').value = customer[0].address;
+            if(customer?.address) {
+                document.getElementById('cust-address').value = customer.address;
             }
         } catch (error) {
             console.error("Lỗi khi tải thông tin khách hàng:", error);
@@ -194,14 +194,21 @@
     // --- 2. LẤY VÀ HIỂN THỊ GIỎ HÀNG TỪ BẢNG Cart JOIN Product TRONG MYSQL ---
     async function renderCart() {
         try {
-            const response = await fetch(`${API_BASE_URL}/cart/viet69`,
+            // Lấy username từ localStorage
+            const username = localStorage.getItem('User_name');
+            if (!username) {
+                console.warn("Không tìm thấy username trong localStorage");
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/cart/${username}`,
                 { method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log(response); // Note giong cai tren kia
+            console.log(response);
             const cartItems = await response.json();
             currentCartItems = cartItems;  // Lưu vào biến global
             console.log(cartItems); 
@@ -243,52 +250,180 @@
     // --- 3. LẤY VÀ HIỂN THỊ TRA CỨU VẬN ĐƠN ---
     async function renderTracking() {
         try {
-            const response = await fetch(`${API_BASE_URL}/getOrderTracking`);
-            const trackingData = await response.json();
-            
-            if(trackingData.status) {
-                 document.getElementById('order-status').innerText = `Trạng thái đơn hàng : ${trackingData.status}`;
+            // Lấy username từ localStorage
+            const username = localStorage.getItem('User_name');
+            if (!username) {
+                alert("Vui lòng đăng nhập để xem lịch sử đơn hàng!");
+                return;
             }
+
+            // Gọi API show_user_bills
+            const response = await fetch(`${API_BASE_URL}/invoices/user/${username}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const billsData = await response.json();
+
+            if (!billsData || billsData.length === 0) {
+                document.getElementById('tracking-products').innerHTML = '<p style="text-align: center; color: #999;">Bạn chưa có đơn hàng nào</p>';
+                document.getElementById('tracking-total').innerText = '0đ';
+                document.getElementById('order-status').innerText = 'Trạng thái đơn hàng : Không có';
+                return;
+            }
+
+            // Group dữ liệu theo Inv_id
+            const invoiceMap = {};
+            billsData.forEach(row => {
+                if (!invoiceMap[row.Inv_id]) {
+                    invoiceMap[row.Inv_id] = {
+                        Inv_id: row.Inv_id,
+                        created_At: row.created_At,
+                        Inv_price: row.Inv_price,
+                        status: row.status,
+                        items: []
+                    };
+                }
+                if (row.Prod_id) {
+                    invoiceMap[row.Inv_id].items.push({
+                        prod_name: row.prod_name,
+                        prod_price: row.prod_price,
+                        quantity: row.quantity,
+                        prod_id: row.Prod_id
+                    });
+                }
+            });
+
+            // Chuyển thành array
+            const invoices = Object.values(invoiceMap);
+            
+            // Hiển thị đơn hàng gần nhất
+            const latestInvoice = invoices[0];
+            document.getElementById('order-status').innerText = `Trạng thái đơn hàng : ${latestInvoice.status}`;
 
             const trackingContainer = document.getElementById('tracking-products');
             let html = '';
-            let total = 0;
 
-            trackingData.orderItems.forEach((item) => {
-                total += item.prod_price * item.quantity;
-                html += `
-                    <div class="product-item">
-                        <div class="product-img"></div>
-                        <div class="product-info">
-                            <div style="display:flex; justify-content:space-between;">
-                                <div class="product-name">${item.prod_name}</div>
-                                <div class="product-price">${formatMoney(item.prod_price)}</div>
-                            </div>
-                            <div style="font-size: 12px; color: #666;">${item.prod_category || ''}</div>
-                            <div style="display:flex; justify-content:flex-end; align-items:center; gap: 15px;">
-                                <span style="font-size:13px; cursor:not-allowed; color:#ccc;">Xóa</span>
-                                <div class="qty-control">
-                                    <button class="qty-btn" disabled>-</button>
-                                    <input type="text" class="qty-input" value="${item.quantity}" readonly style="background:#eee;">
-                                    <button class="qty-btn" disabled>+</button>
+            invoices.forEach((invoice, index) => {
+                const isWaiting = invoice.status === 'Chờ';
+                html += `<div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fafafa;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" class="invoice-checkbox" value="${invoice.Inv_id}" ${isWaiting ? '' : 'disabled'} style="cursor: pointer;">
+                            <div>
+                                <div style="font-size: 13px; color: #666;">
+                                    <strong>Mã HĐ:</strong> ${invoice.Inv_id}
+                                </div>
+                                <div style="font-size: 12px; color: #999; margin-top: 2px;">
+                                    ${new Date(invoice.created_At).toLocaleDateString('vi-VN')} - <span style="color: ${isWaiting ? '#ff9800' : '#4caf50'}; font-weight: bold;">${invoice.status}</span>
                                 </div>
                             </div>
                         </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 16px; font-weight: bold; color: #d32f2f;">${formatMoney(invoice.Inv_price)}</div>
+                            ${isWaiting ? `<button onclick="cancelSingleOrder('${invoice.Inv_id}')" style="margin-top: 8px; padding: 6px 15px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Hủy</button>` : ''}
+                        </div>
                     </div>
-                `;
+                    
+                    <div>`;
+                
+                invoice.items.forEach(item => {
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500; margin-bottom: 2px;">${item.prod_name}</div>
+                                <div style="color: #999; font-size: 12px;">Giá: ${formatMoney(item.prod_price)} x ${item.quantity} = ${formatMoney(item.prod_price * item.quantity)}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
             });
 
             trackingContainer.innerHTML = html;
-            document.getElementById('tracking-total').innerText = formatMoney(total);
+            document.getElementById('tracking-total').innerText = formatMoney(latestInvoice.Inv_price);
         } catch (error) {
             console.error("Lỗi khi tải tra cứu vận đơn:", error);
+            document.getElementById('tracking-products').innerHTML = '<p style="text-align: center; color: #f00;">Lỗi tải dữ liệu. Vui lòng thử lại.</p>';
         }
+    }
+
+    // --- 3B. HỦY ĐƠN HÀNG ĐƠNLẺ ---
+    async function cancelSingleOrder(invId) {
+        if (!confirm(`Bạn chắc chắn muốn hủy đơn hàng ${invId}?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/invoices/${invId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Hủy đơn hàng thành công!");
+                renderTracking();
+            } else {
+                alert("Lỗi khi hủy đơn: " + (result.message || "Vui lòng thử lại"));
+            }
+        } catch (error) {
+            console.error("Lỗi khi hủy đơn:", error);
+            alert("Lỗi khi hủy đơn. Vui lòng kiểm tra console.");
+        }
+    }
+
+    // --- 3C. HỦY NHIỀU ĐƠN HÀNG ---
+    async function cancelMultipleOrders() {
+        const checkboxes = document.querySelectorAll('.invoice-checkbox:checked');
+        
+        if (checkboxes.length === 0) {
+            alert("Vui lòng chọn ít nhất một đơn hàng để hủy!");
+            return;
+        }
+
+        if (!confirm(`Bạn chắc chắn muốn hủy ${checkboxes.length} đơn hàng?`)) {
+            return;
+        }
+
+        let successCount = 0;
+        let failCount = 0;
+
+        for (let checkbox of checkboxes) {
+            const invId = checkbox.value;
+            try {
+                const response = await fetch(`${API_BASE_URL}/invoices/${invId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    successCount++;
+                } else {
+                    failCount++;
+                }
+            } catch (error) {
+                failCount++;
+                console.error("Lỗi khi hủy đơn " + invId, error);
+            }
+        }
+
+        alert(`Kết quả: Hủy thành công ${successCount} đơn, thất bại ${failCount} đơn.`);
+        renderTracking();
     }
 
     // --- 4. TƯƠNG TÁC VỚI DATABASE (ĐIỀU CHỈNH SỐ LƯỢNG HOẶC XOÁ) ---
     async function updateQty(productId, change) {
         try {
-            await fetch(`${API_BASE_URL}/updateCartQty`, {
+            await fetch(`${API_BASE_URL}/cart/updateCartQty`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prod_id: productId, change: change })
@@ -301,7 +436,7 @@
 
     async function deleteCartItem(productId) {
         try {
-            await fetch(`${API_BASE_URL}/deleteCartItem`, {
+            await fetch(`${API_BASE_URL}/cart/deleteCartItem`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prod_id: productId })
