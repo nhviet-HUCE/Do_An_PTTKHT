@@ -36,6 +36,25 @@ exports.get_all_products = async (req, res) => {
         return res.status(500).json({ error: err.message });
      }
 }
+exports.get_product_by_category = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const rows = await database.query(
+            "SELECT * FROM product WHERE prod_category = ?",
+            [category]
+        );
+
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                message: `Không tìm thấy sản phẩm với danh mục ${category}`
+            });
+        }
+        return res.json(rows);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: err.message });
+    }
+}
 exports.get_product_by_id = async (req, res) => {
     try {
         const id = req.params.id;
