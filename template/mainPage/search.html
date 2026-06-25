@@ -24,7 +24,7 @@
                 </a>
 
                 <div class="search-bar">
-                  <form action="search.html" method="GET">
+                    <form action="search.html" method="GET">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="search" id="searchInput" name="keyword" placeholder="Tìm kiếm sản phẩm...">
                     </form>
@@ -112,14 +112,21 @@
     <script>
 
         const urlParams = new URLSearchParams(window.location.search);
-        const keyword = urlParams.get('keyword');
+        const keyword = urlParams.get('keyword') || '';
+        const rawCategory = urlParams.get('category')|| '';
+        const category = rawCategory.replace(/-/g, ' ');
 
-        if (keyword) {
-            document.getElementById('keyword-display').innerText = `"${keyword}"`;
-            document.getElementById('searchInput').value = keyword;
-        }
         async function getProductsByKeyword(keyword) {
             const response = await fetch(`http://localhost:8080/api/products/search/${keyword}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            return response.json();
+        }
+        async function getProductsByCategory(category) {
+            const response = await fetch(`http://localhost:8080/api/products/category/${category}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -130,21 +137,27 @@
         async function renderSearchResults() {
             const searchResultsContainer = document.getElementById('search-results');
             searchResultsContainer.innerHTML = ''; // Xóa nội dung hiện tại
-
+            let products = [];
             if (keyword) {
-                const products = await getProductsByKeyword(keyword);
-                products.forEach(item => {
-                    const productCard = document.createElement('div');
-                    productCard.classList.add('product-card');
-                    productCard.innerHTML = `
+                products = await getProductsByKeyword(keyword);
+                document.getElementById('keyword-display').innerText = `"${keyword}"`;
+                document.getElementById('searchInput').value = keyword;
+            }
+            else if (category) {
+                products = await getProductsByCategory(rawCategory);
+                document.getElementById('keyword-display').innerText = `"${category}"`;
+            }
+            products.forEach(item => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+                productCard.innerHTML = `
                         <img src="${item.prod_img}" alt="${item.prod_name}">
                         <a href="detail.html?id=${item.prod_id}" class="stretched-link" title="${item.prod_name}"></a>
                         <h3 class="product-name" title="${item.prod_name}">${item.prod_name}</h3>
                         <div class="product-price">${fmtGia(item.prod_price)}</div>
                     `;
-                    searchResultsContainer.appendChild(productCard);
-                });
-            }
+                searchResultsContainer.appendChild(productCard);
+            });
         }
         function fmtGia(g) {
 
