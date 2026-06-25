@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch sử mua hàng</title>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -17,100 +17,198 @@
             background-color: #f5f5f5;
         }
 
-        /* --- Header --- */
-        .header {
-            background-color: #5ea8ff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
-            color: black;
-        }
+/*  --  HEADER  --  */
+.top-bar {
+    background-color: #61AFFE;
+    padding: 10px 20px 20px 20px;
+    position: relative;
+    border: 1px solid #000;
+    border-bottom: none;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.help-link {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    color: #0b5ed7;
+    text-decoration: none;
+    font-size: 14px;
+}
 
-        .globe-icon {
-            font-size: 30px;
-            color: white;
-        }
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 15px auto 0;
+    padding: 0 10px;
+}
 
-        .brand {
-            display: flex;
-            flex-direction: column;
-            font-weight: bold;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
 
-        .brand-name {
-            font-size: 18px;
-            font-style: italic;
-        }
+.logo i {
+    font-size: 40px;
+}
 
-        .brand-domain {
-            font-size: 14px;
-            font-style: italic;
-        }
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
 
-        .search-bar-global {
-            flex: 1;
-            max-width: 500px;
-            background: white;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            padding: 5px 15px;
-            margin: 0 20px;
-        }
+.brand {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+}
 
-        .search-bar-global input {
-            border: none;
-            outline: none;
-            width: 100%;
-            padding: 5px;
-        }
+.domain {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+}
 
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+.search-bar {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+    margin: 0 20px;
+}
 
-        .user-info, .cart-info {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    outline: none;
+    font-size: 16px;
+}
 
-        .help-link {
-            color: #004d99;
-            font-size: 12px;
-            cursor: pointer;
-            margin-bottom: 25px;
-        }
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    font-size: 18px;
+}
 
-        /* --- Navigation --- */
-        .nav-bar {
-            background-color: #ffd400;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px 0;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.user-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
 
-        .nav-bar a {
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+.user-info, .cart-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
 
+.user-info i, .cart-info i {
+    font-size: 22px;
+}
+
+.nav-bar {
+    background-color: #FDD835;
+    border: 1px solid #000;
+}
+
+.nav-bar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 10px;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-bar a:hover {
+    font-weight: bold;
+}
+
+.small-icon {
+    font-size: 10px;
+}
+
+.has-dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #eaeaea;
+    border-radius: 0 0 5px 5px;
+    padding: 10px 0;
+    z-index: 100;
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0 !important; 
+}
+
+.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    padding: 12px 20px !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    display: block;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+    color: #1976D2 !important; 
+    padding-left: 25px !important; 
+    transition: padding-left 0.2s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+}
+*/
         /* --- Main Content --- */
         .main-content {
             padding: 30px 50px;
@@ -236,42 +334,72 @@
     </style>
 </head>
 <body>
+ 
+    <header>
+        <div class="top-bar">
+            <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
+            <div class="header-main">
+                <a href="Trangchu.html" class="logo">
+    <i class="fa-solid fa-globe"></i>
+    <div class="logo-text">
+        <span class="brand">sieuthicongnghe</span>
+        <span class="domain">.com</span>
+    </div>
+</a>
 
-    <header class="header">
-        <div class="logo">
-            <span class="globe-icon">🌐</span>
-            <div class="brand">
-                <span class="brand-name">sieuthicongnghe</span>
-                <span class="brand-domain">.com</span>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="">
+                </div>
+
+                <div class="user-actions">
+                    <div class="user-info">
+                        <i class="fa-regular fa-circle-user"></i>
+                        <span>Tên khách hàng</span>
+                    </div>
+                    <div class="cart-info">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="search-bar-global">
-            <span class="search-icon">🔍</span>
-            <input type="text" placeholder="">
-        </div>
-        <div class="user-actions">
-            <div class="user-info">
-                <span class="user-icon">👤</span> Tên khách hàng
-            </div>
-            <div class="cart-info">
-                <span class="cart-icon">🛒</span> Giỏ hàng
-            </div>
-            <div class="help-link">Bạn cần giúp đỡ?</div>
-        </div>
+
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
+                <li><a href="#"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
+                
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Tai nghe</a></li>
+                        <li><a href="#">Cáp, Sạc</a></li>
+                        <li><a href="#">Ốp lưng, Bao da</a></li>
+                        <li><a href="#">Pin dự phòng</a></li>
+                        <li><a href="#">Thiết bị thông minh</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
+                <li><a href="#"><i class="fa-solid fa-clock"></i> Đồng hồ</a></li>
+                <li><a href="#"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+                
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Điện thoại cũ</a></li>
+                        <li><a href="#">Máy tính bảng cũ</a></li>
+                        <li><a href="#">Định giá thu cũ đổi mới</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#"><i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-wrench"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+            </ul>
+        </nav>
     </header>
-
-    <nav class="nav-bar">
-        <a href="#">📱 Điện thoại</a>
-        <a href="#">💻 Laptop</a>
-        <a href="#">🎧 Phụ kiện ˅</a>
-        <a href="#">⌚ Smartwatch</a>
-        <a href="#">⏱ Đồng hồ</a>
-        <a href="#">📱 Tablet</a>
-        <a href="#">♻️ Máy cũ, Thu cũ ˅</a>
-        <a href="#">🖥 Màn hình, Máy in ˅</a>
-        <a href="#">💳 Sim, Thẻ cào ˅</a>
-        <a href="#">⚙️ Dịch vụ tiện ích ˅</a>
-    </nav>
 
     <main class="main-content">
         <div class="history-container">
