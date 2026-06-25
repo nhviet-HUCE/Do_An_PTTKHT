@@ -120,8 +120,7 @@
 
                         <th>Mã hóa đơn</th>
 
-                        <th>Tên sản phẩm</th>
-
+                       
                         <th>Tên khách hàng</th>
 
                         <th>Ngày đặt</th>
@@ -129,6 +128,8 @@
                         <th>Mã vận đơn </th>
 
                         <th>Giá tiền</th>
+
+                        <th>Trạng thái đơn hàng</th>
 
                         <th>Chọn</th>
 
@@ -151,33 +152,85 @@
                 </tbody>
 
             </table>
+    </div>
 
-            <div class="action-bar">
+           <div class="bottom-section">
 
-                <button
-                  id="btn-delete"
-                    class="btn-delete">
+    <!-- Chi tiết đơn hàng -->
 
-                   <i class="ti ti-trash"></i>
-                    
-                   Xóa
+    <div class="detail-panel">
 
-                </button>
+        <div class="detail-panel-header">
 
-                <button
-                    id="btn-approve"
-                     class="btn-approve">
-
-                  <i class="ti ti-check"></i>
-                  Duyệt
-
-                </button>
-
-            </div>
+            Chi tiết đơn hàng
 
         </div>
 
+        <table class="detail-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Mô tả sản phẩm</th>
+
+                    <th>Số lượng khách mua</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td id="detail-description">
+
+                        Chưa chọn đơn hàng
+
+                    </td>
+
+                    <td id="detail-quantity">
+
+                        --
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
+
+    <!-- Nút chức năng -->
+
+    <div class="action-bar">
+
+        <button
+            id="btn-cancel"
+            class="btn-cancel">
+
+            <i class="ti ti-trash"></i>
+
+            Hủy
+
+        </button>
+
+        <button
+            id="btn-approve"
+            class="btn-approve">
+
+            <i class="ti ti-check"></i>
+
+            Duyệt
+
+        </button>
+
+    </div>
+
+</div>
 
     <script src="xulydonhang.js"></script>
 

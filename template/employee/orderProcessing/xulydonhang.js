@@ -28,7 +28,7 @@ let selectedOrderId = null;
 
 let connected = false;
 
-
+let selectedOrder = null;
 
 //    ESCAPE HTML
 
@@ -69,13 +69,13 @@ async function apiGetOrders() {
 }
 
 
-async function apiDeleteOrder(id) {
+async function apiCancelOrder(id) {  
 
     const response =
         await fetch(
             `${API_URL}/api/orders/${id}`,
             {
-                method: "DELETE"
+                method: "PUT"
             }
         );
 
@@ -102,10 +102,6 @@ async function apiApproveOrder(id) {
 
 
 
-
-
-
-
 // chọn order
 function selectOrder(idx) {
 
@@ -115,21 +111,63 @@ function selectOrder(idx) {
 
         selectedOrderId = null;
 
-    } else {
+        selectedOrder = null;
+
+    }
+
+    else {
 
         selectedIdx = idx;
 
+        selectedOrder =
+            filteredOrders[idx];
+
         selectedOrderId =
-            filteredOrders[idx]
-            .Inv_id;
+            selectedOrder.Inv_id;
     }
 
-    updateButtons();
+    updateDetailPanel();
 
     renderTable();
 }
+function updateDetailPanel() { //chú ý phần này
 
+    const desc =
+        document.getElementById(
+            "detail-description"
+        );
 
+    const qty =
+        document.getElementById(
+            "detail-quantity"
+        );
+
+    if (!desc || !qty) {
+
+        return;
+    }
+
+    if (!selectedOrder) {
+
+        desc.textContent =
+            "Chưa chọn đơn hàng";
+
+        qty.textContent =
+            "--";
+
+        return;
+    }
+
+    desc.textContent =
+      
+        selectedOrder.prod_name ||
+        "Không có mô tả";
+
+    qty.textContent =
+        selectedOrder.quantity ||
+   
+        "--";
+}
 
 //    RENDER TABLE
  
@@ -184,10 +222,6 @@ function renderTable() {
                     </td>
 
                     <td>
-                        ${esc(o.prod_name)}
-                    </td>
-
-                    <td>
                         ${esc(o.User_name)}
                     </td>
 
@@ -204,7 +238,18 @@ function renderTable() {
                             o.Inv_price
                         )} đ
                     </td>
+                     <td>
 
+                       <span class="
+                          order-status
+                            ${(o.status || "cho").toLowerCase()}
+                        ">
+
+                        ${o.status || "Chờ"}
+
+                       </span>
+
+                     </td>
                     <td>
 
                         <input
@@ -255,13 +300,15 @@ async function loadOrders() {
     renderTable();
 
     updateButtons();
+
+    updateDetailPanel();
 }
 
 
 
-//    xóa ORDER
+//    hủyORDER
 
-async function deleteOrder() {
+async function cancelOrder() {
 
     if (
         selectedOrderId == null
@@ -275,22 +322,27 @@ async function deleteOrder() {
     }
 
     const ok = confirm(
-        "Bạn có chắc muốn xóa đơn hàng này?"
+        "Bạn có chắc muốn hủy đơn hàng này?"
     );
 
     if (!ok) {
-
+        
         return;
     }
+    filteredOrders[
+    selectedIdx
+    ].status = "Hủy";
 
-    await apiDeleteOrder(
+    await apiCancelOrder(
         selectedOrderId
     );
 
     selectedIdx = -1;
 
     selectedOrderId = null;
+ 
 
+    
     await loadOrders();
 }
 
@@ -313,6 +365,9 @@ async function approveOrder() {
     await apiApproveOrder(
         selectedOrderId
     );
+     filteredOrders[
+    selectedIdx
+    ].status = "Duyệt";
 
     alert(
         "Duyệt đơn thành công"
@@ -322,6 +377,7 @@ async function approveOrder() {
 
     selectedOrderId = null;
 
+   
     await loadOrders();
 }
 
@@ -361,11 +417,11 @@ function goLogin() {
 
 document
     .getElementById(
-        "btn-delete"
+        "btn-cancel"
     )
     .addEventListener(
         "click",
-        deleteOrder
+        cancelOrder
     );
 
 document
