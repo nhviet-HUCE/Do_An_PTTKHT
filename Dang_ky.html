@@ -18,183 +18,197 @@
             color: #333;
         }
 
-        /* --- HEADER --- */
-        header {
-            background-color: #72bbf5;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 25px 40px; 
-            position: relative;
-            gap: 40px;
-        }
+/*  --  HEADER  --  */
+.top-bar {
+    background-color: #61AFFE;
+    padding: 10px 20px 20px 20px;
+    position: relative;
+    border: 1px solid #000;
+    border-bottom: none;
+}
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            font-style: italic;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
+.help-link {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    color: #0b5ed7;
+    text-decoration: none;
+    font-size: 14px;
+}
 
-        .logo-area i {
-            font-size: 40px;
-            color: white;
-            margin-right: 10px;
-        }
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 15px auto 0;
+    padding: 0 10px;
+}
 
-        .header-right-group {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            width: 100%;
-            max-width: 750px; 
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
 
-        .search-bar {
-            width: 100%;
-            max-width: 400px;
-            position: relative;
-        }
+.logo i {
+    font-size: 40px;
+}
 
-        .search-bar input {
-            width: 100%;
-            border-radius: 30px;
-            border: 1px solid #333;
-            padding: 10px 20px 10px 40px;
-            font-size: 15px;
-            outline: none;
-        }
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
 
-        .search-bar i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            color: #333;
-        }
+.brand {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+}
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-shrink: 0;
-        }
+.domain {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+}
 
-        .action-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            cursor: pointer;
-        }
+.search-bar {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+    margin: 0 20px;
+}
 
-        .action-item i {
-            font-size: 22px;
-        }
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    outline: none;
+    font-size: 16px;
+}
 
-        .help-link-top {
-            position: absolute;
-            top: 8px;
-            right: 40px;
-            font-size: 12px;
-            color: #1c5b8e;
-            text-decoration: none;
-        }
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    font-size: 18px;
+}
 
-        /* --- NAVIGATION BAR & DROPDOWN --- */
-        nav {
-            background-color: #fbd015;
-            display: flex;
-            justify-content: center;
-            padding: 12px 0;
-            gap: 20px;
-            font-size: 13px;
-            font-weight: 500;
-        }
+.user-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            position: relative;
-            padding: 5px 8px;
-            border-radius: 5px;
-            transition: background 0.2s;
-        }
+.user-info, .cart-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
 
-        .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-        }
+.user-info i, .cart-info i {
+    font-size: 22px;
+}
 
-        .nav-item i.fa-chevron-down {
-            font-size: 10px;
-            margin-top: 2px;
-        }
+.nav-bar {
+    background-color: #FDD835;
+    border: 1px solid #000;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #fff;
-            min-width: 220px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
-            border-radius: 8px;
-            padding: 15px;
-            z-index: 100;
-            margin-top: 10px;
-        }
+.nav-bar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 10px;
+}
 
-        .dropdown-content::before {
-            content: "";
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 0 8px 8px 8px;
-            border-style: solid;
-            border-color: transparent transparent #fff transparent;
-        }
+.nav-bar a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-        .nav-item:hover .dropdown-content {
-            display: flex;
-            justify-content: space-around;
-            gap: 10px;
-        }
+.nav-bar a:hover {
+    font-weight: bold;
+}
 
-        .dropdown-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            font-size: 12px;
-            text-align: center;
-        }
+.small-icon {
+    font-size: 10px;
+}
 
-        .dropdown-item img {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            transition: transform 0.2s;
-        }
+.has-dropdown {
+    position: relative;
+}
 
-        .dropdown-item:hover img {
-            transform: translateY(-3px);
-        }
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #eaeaea;
+    border-radius: 0 0 5px 5px;
+    padding: 10px 0;
+    z-index: 100;
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.3s ease;
 
-        .dropdown-item:hover span {
-            color: #2b7bc5;
-            font-weight: bold;
-        }
+    display: flex;
+    flex-direction: column;
+    gap: 0 !important; 
+}
 
+.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    padding: 12px 20px !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    display: block;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+    color: #1976D2 !important; 
+    padding-left: 25px !important; 
+    transition: padding-left 0.2s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+}
         /* --- MAIN CONTENT: REGISTER SECTION --- */
         main {
             display: flex;
@@ -301,57 +315,71 @@
     </style>
 </head>
 <body>
+   <header>
+        <div class="top-bar">
+            <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
+            <div class="header-main">
+                <a href="Trangchu.html" class="logo">
+    <i class="fa-solid fa-globe"></i>
+    <div class="logo-text">
+        <span class="brand">sieuthicongnghe</span>
+        <span class="domain">.com</span>
+    </div>
+</a>
 
-    <header>
-        <a href="#" class="help-link-top">Bạn cần giúp đỡ?</a>
-        <div class="logo-area">
-            <i class="fa-solid fa-globe"></i>
-            <div>sieuthicongnghe<br><span style="font-size: 14px;">.com</span></div>
-        </div>
-        
-        <div class="header-right-group">
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Mua Online giá rẻ hơn">
-            </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="">
+                </div>
 
-            <div class="header-actions">
-                <div class="action-item">
-                    <i class="fa-regular fa-circle-user"></i>
-                    <span>Đăng ký</span>
-                </div>
-                <div class="action-item">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span>Giỏ hàng</span>
+                <div class="user-actions">
+                    <div class="user-info">
+                        <i class="fa-regular fa-circle-user"></i>
+                        <span>Tên khách hàng</span>
+                    </div>
+                    <div class="cart-info">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
+                <li><a href="#"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
+                
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Tai nghe</a></li>
+                        <li><a href="#">Cáp, Sạc</a></li>
+                        <li><a href="#">Ốp lưng, Bao da</a></li>
+                        <li><a href="#">Pin dự phòng</a></li>
+                        <li><a href="#">Thiết bị thông minh</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
+                <li><a href="#"><i class="fa-solid fa-clock"></i> Đồng hồ</a></li>
+                <li><a href="#"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+                
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Điện thoại cũ</a></li>
+                        <li><a href="#">Máy tính bảng cũ</a></li>
+                        <li><a href="#">Định giá thu cũ đổi mới</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#"><i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-wrench"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+            </ul>
+        </nav>
     </header>
-
-    <nav>
-        <div class="nav-item"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</div>
-        <div class="nav-item"><i class="fa-solid fa-laptop"></i> Laptop</div>
-        <div class="nav-item"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="nav-item"><i class="fa-regular fa-clock"></i> Smartwatch</div>
-        <div class="nav-item"><i class="fa-regular fa-clock"></i> Đồng hồ</div>
-        <div class="nav-item">
-            <i class="fa-solid fa-tablet-screen-button"></i> Tablet <i class="fa-solid fa-chevron-down"></i>
-            <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/522/280717/s16/ipad-gen-9-silver-650x650.png" alt="Máy tính bảng">
-                    <span>Máy tính bảng</span>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/522/293674/s16/may-doc-sach-boox-poke-4-lite-den-650x650.png" alt="Máy đọc sách">
-                    <span>Máy đọc sách</span>
-                </a>
-            </div>
-        </div>
-        <div class="nav-item"><i class="fa-solid fa-mobile-screen"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="nav-item"><i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="nav-item"><i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="nav-item"><i class="fa-solid fa-bolt"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down"></i></div>
-    </nav>
 
     <main>
         <div class="illustration-container">
