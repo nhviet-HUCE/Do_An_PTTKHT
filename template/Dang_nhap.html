@@ -426,9 +426,11 @@
                 } else {
                     alert('Đăng nhập thất bại: ' + data.message);
                 }
-
                 if (data.user.role === "admin") {
                     return window.location.href = './admin/ad.html';
+                }
+                else if (data.user.role === "nhan_vien") {
+                    return window.location.href = './employee/orderProcessing/xulydonhang.html';
                 }
                 return window.location.href = './mainPage/Trangchu_dafix.html';
             } catch (error) {

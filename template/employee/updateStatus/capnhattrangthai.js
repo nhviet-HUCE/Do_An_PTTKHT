@@ -71,12 +71,23 @@ async function apiToggleStatus(prodId) {
 
 
 
-function loadEmployeeName() {
+async function loadEmployeeName() {
+    const token=localStorage.getItem("token");
+    const response = await fetch(
+        `${API_URL}/api/auth/protected`,
+        {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
 
-    const empName =
-        localStorage.getItem(
-            "employee_name"
-        );
+    if (!response.ok) {
+        throw new Error("Không lấy được thông tin nhân viên");
+    }
+    const data=await response.json();
+    const empName =data.user;
 
     const target =
         document.getElementById(

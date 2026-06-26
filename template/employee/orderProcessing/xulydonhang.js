@@ -28,7 +28,7 @@ let selectedOrderId = null;
 
 let connected = false;
 
-
+let selectedOrder = null;
 
 //    ESCAPE HTML
 
@@ -68,14 +68,33 @@ async function apiGetOrders() {
     return await response.json();
 }
 
-
-async function apiDeleteOrder(id) {
+async function apiGetOrderDetail() {
 
     const response =
         await fetch(
-            `${API_URL}/api/orders/${id}`,
+            `${API_URL}/api/invoices/${selectedOrderId}`,
             {
-                method: "DELETE"
+                method: "GET"
+            }
+        );
+
+    console.log(response);
+
+    return await response.json();
+}
+
+
+async function apiCancelOrder(id) {  
+
+    const response =
+        await fetch(
+            `${API_URL}/api/invoices/pending`,
+            {
+                method: "PATCH",
+                body:JSON.stringify({
+                    ma_hoa_don:id, 
+                    trang_thai:'huy'
+                })
             }
         );
 
@@ -89,9 +108,16 @@ async function apiApproveOrder(id) {
 
     const response =
         await fetch(
-            `${API_URL}/api/orders/${id}/approve`,
+            `${API_URL}/api/invoices/pending`,
             {
-                method: "PUT"
+                method: "PATCH",
+                headers: {
+                        'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    ma_hoa_don:id, 
+                    trang_thai:'chap_nhan'
+                })
             }
         );
 
@@ -99,10 +125,6 @@ async function apiApproveOrder(id) {
 
     return await response.json();
 }
-
-
-
-
 
 
 
@@ -115,21 +137,63 @@ function selectOrder(idx) {
 
         selectedOrderId = null;
 
-    } else {
+        selectedOrder = null;
+
+    }
+
+    else {
 
         selectedIdx = idx;
 
+        selectedOrder =
+            filteredOrders[idx];
+
         selectedOrderId =
-            filteredOrders[idx]
-            .Inv_id;
+            selectedOrder.Inv_id;
     }
 
-    updateButtons();
+    updateDetailPanel();
 
     renderTable();
 }
+async function updateDetailPanel() { //chú ý phần này
 
+    const desc =
+        document.getElementById(
+            "detail-description"
+        );
 
+    const qty =
+        document.getElementById(
+            "detail-quantity"
+        );
+
+    if (!desc || !qty) {
+
+        return;
+    }
+
+    if (!selectedOrder) {
+
+        desc.textContent =
+            "Chưa chọn đơn hàng";
+
+        qty.textContent =
+            "--";
+
+        return;
+    }
+    const data=await apiGetOrderDetail();
+    desc.textContent =
+      
+        data[0].prod_name ||
+        "Không có mô tả";
+
+    qty.textContent =
+        data[0].quantity ||
+   
+        "--";
+}
 
 //    RENDER TABLE
  
@@ -184,10 +248,6 @@ function renderTable() {
                     </td>
 
                     <td>
-                        ${esc(o.prod_name)}
-                    </td>
-
-                    <td>
                         ${esc(o.User_name)}
                     </td>
 
@@ -204,7 +264,18 @@ function renderTable() {
                             o.Inv_price
                         )} đ
                     </td>
+                     <td>
 
+                       <span class="
+                          order-status
+                            ${(o.status || "cho").toLowerCase()}
+                        ">
+
+                        ${o.status || "Chờ"}
+
+                       </span>
+
+                     </td>
                     <td>
 
                         <input
@@ -254,14 +325,15 @@ async function loadOrders() {
 
     renderTable();
 
-    updateButtons();
+
+    updateDetailPanel();
 }
 
 
 
-//    xóa ORDER
+//    hủyORDER
 
-async function deleteOrder() {
+async function cancelOrder() {
 
     if (
         selectedOrderId == null
@@ -275,22 +347,27 @@ async function deleteOrder() {
     }
 
     const ok = confirm(
-        "Bạn có chắc muốn xóa đơn hàng này?"
+        "Bạn có chắc muốn hủy đơn hàng này?"
     );
 
     if (!ok) {
-
+        
         return;
     }
+    filteredOrders[
+    selectedIdx
+    ].status = "Hủy";
 
-    await apiDeleteOrder(
+    await apiCancelOrder(
         selectedOrderId
     );
 
     selectedIdx = -1;
 
     selectedOrderId = null;
+ 
 
+    
     await loadOrders();
 }
 
@@ -309,10 +386,12 @@ async function approveOrder() {
 
         return;
     }
-
     await apiApproveOrder(
         selectedOrderId
     );
+     filteredOrders[
+    selectedIdx
+    ].status = "Duyệt";
 
     alert(
         "Duyệt đơn thành công"
@@ -322,18 +401,30 @@ async function approveOrder() {
 
     selectedOrderId = null;
 
+   
     await loadOrders();
 }
 
 
 //    EMPLOYEE NAME
 
-function loadEmployeeName() {
+async function loadEmployeeName() {
+    const token=localStorage.getItem("token");
+    const response = await fetch(
+        `${API_URL}/api/auth/protected`,
+        {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
 
-    const empName =
-        localStorage.getItem(
-            "employee_name"
-        );
+    if (!response.ok) {
+        throw new Error("Không lấy được thông tin nhân viên");
+    }
+    const data=await response.json();
+    const empName =data.user;
 
     const target =
         document.getElementById(
@@ -361,11 +452,11 @@ function goLogin() {
 
 document
     .getElementById(
-        "btn-delete"
+        "btn-cancel"
     )
     .addEventListener(
         "click",
-        deleteOrder
+        cancelOrder
     );
 
 document

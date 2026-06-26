@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,198 +18,204 @@
             background-color: #f5f5f5;
         }
 
-/*  --  HEADER  --  */
-.top-bar {
-    background-color: #61AFFE;
-    padding: 10px 20px 20px 20px;
-    position: relative;
-    border: 1px solid #000;
-    border-bottom: none;
-}
+        /*  --  HEADER  --  */
+        .top-bar {
+            background-color: #61AFFE;
+            padding: 10px 20px 20px 20px;
+            position: relative;
+            border: 1px solid #000;
+            border-bottom: none;
+        }
 
-.help-link {
-    position: absolute;
-    top: 5px;
-    right: 20px;
-    color: #0b5ed7;
-    text-decoration: none;
-    font-size: 14px;
-}
+        .help-link {
+            position: absolute;
+            top: 5px;
+            right: 20px;
+            color: #0b5ed7;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-.header-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 15px auto 0;
-    padding: 0 10px;
-}
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 15px auto 0;
+            padding: 0 10px;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
 
-.logo i {
-    font-size: 40px;
-}
+        .logo i {
+            font-size: 40px;
+        }
 
-.logo-text {
-    display: flex;
-    flex-direction: column;
-    color: #000;
-}
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            color: #000;
+        }
 
-.brand {
-    font-size: 20px;
-    font-style: italic;
-    font-weight: bold;
-}
+        .brand {
+            font-size: 20px;
+            font-style: italic;
+            font-weight: bold;
+        }
 
-.domain {
-    font-size: 14px;
-    font-style: italic;
-    font-weight: bold;
-}
+        .domain {
+            font-size: 14px;
+            font-style: italic;
+            font-weight: bold;
+        }
 
-.search-bar {
-    flex: 1;
-    max-width: 500px;
-    position: relative;
-    margin: 0 20px;
-}
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+            margin: 0 20px;
+        }
 
-.search-bar input {
-    width: 100%;
-    padding: 10px 15px 10px 40px;
-    border-radius: 20px;
-    border: 1px solid #000;
-    outline: none;
-    font-size: 16px;
-}
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 20px;
+            border: 1px solid #000;
+            outline: none;
+            font-size: 16px;
+        }
 
-.search-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #000;
-    font-size: 18px;
-}
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #000;
+            font-size: 18px;
+        }
 
-.user-actions {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
+        .user-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
 
-.user-info, .cart-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    cursor: pointer;
-}
+        .user-info,
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            cursor: pointer;
+        }
 
-.user-info i, .cart-info i {
-    font-size: 22px;
-}
+        .user-info i,
+        .cart-info i {
+            font-size: 22px;
+        }
 
-.nav-bar {
-    background-color: #FDD835;
-    border: 1px solid #000;
-}
+        .nav-bar {
+            background-color: #FDD835;
+            border: 1px solid #000;
+        }
 
-.nav-bar ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 12px 10px;
-}
+        .nav-bar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 10px;
+        }
 
-.nav-bar a {
-    text-decoration: none;
-    color: #000;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+        .nav-bar a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.nav-bar a:hover {
-    font-weight: bold;
-}
+        .nav-bar a:hover {
+            font-weight: bold;
+        }
 
-.small-icon {
-    font-size: 10px;
-}
+        .small-icon {
+            font-size: 10px;
+        }
 
-.has-dropdown {
-    position: relative;
-}
+        .has-dropdown {
+            position: relative;
+        }
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #ffffff;
-    min-width: 220px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border: 1px solid #eaeaea;
-    border-radius: 0 0 5px 5px;
-    padding: 10px 0;
-    z-index: 100;
-    
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(15px);
-    transition: all 0.3s ease;
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ffffff;
+            min-width: 220px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eaeaea;
+            border-radius: 0 0 5px 5px;
+            padding: 10px 0;
+            z-index: 100;
 
-    display: flex;
-    flex-direction: column;
-    gap: 0 !important; 
-}
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: all 0.3s ease;
 
-.has-dropdown:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+            display: flex;
+            flex-direction: column;
+            gap: 0 !important;
+            list-style: none;
+            text-decoration: none;
+        }
 
-.dropdown-menu a {
-    padding: 12px 20px !important;
-    color: #333 !important;
-    font-size: 14px !important;
-    font-weight: normal !important;
-    display: block;
-    border-bottom: 1px solid #f9f9f9;
-}
+        .has-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
-.dropdown-menu li:last-child a {
-    border-bottom: none;
-}
+        .dropdown-menu a {
+            padding: 12px 20px !important;
+            color: #333 !important;
+            font-size: 14px !important;
+            font-weight: normal !important;
+            display: block;
+            border-bottom: 1px solid #f9f9f9;
+        }
 
-.dropdown-menu a:hover {
-    background-color: #f5f5f5;
-    color: #1976D2 !important; 
-    padding-left: 25px !important; 
-    transition: padding-left 0.2s ease;
-}
+        .dropdown-menu li:last-child a {
+            border-bottom: none;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    text-decoration: none;
-}
-*/
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+            color: #1976D2 !important;
+            padding-left: 25px !important;
+            transition: padding-left 0.2s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        */
+
         /* --- Main Content --- */
         .main-content {
             padding: 30px 50px;
@@ -218,7 +225,7 @@
             background: white;
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #ddd;
         }
 
@@ -333,19 +340,20 @@
         }
     </style>
 </head>
+
 <body>
- 
+
     <header>
         <div class="top-bar">
             <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
             <div class="header-main">
-                <a href="Trangchu.html" class="logo">
-    <i class="fa-solid fa-globe"></i>
-    <div class="logo-text">
-        <span class="brand">sieuthicongnghe</span>
-        <span class="domain">.com</span>
-    </div>
-</a>
+                <a href="mainPage/Trangchu_dafix.html" class="logo">
+                    <i class="fa-solid fa-globe"></i>
+                    <div class="logo-text">
+                        <span class="brand">sieuthicongnghe</span>
+                        <span class="domain">.com</span>
+                    </div>
+                </a>
 
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -353,13 +361,18 @@
                 </div>
 
                 <div class="user-actions">
-                    <div class="user-info">
+                    <div class="user-info has-dropdown">
                         <i class="fa-regular fa-circle-user"></i>
-                        <span>Tên khách hàng</span>
+                        <span id="username">Guest</span>
+                        <ul class="dropdown-menu" id="logout-options">
+                            <li><a href="Xem_lich_su.html">Lịch sử mua hàng</a></li>
+                            <li><a href="#" onclick="logout()">Đăng xuất</a></li>
+                        </ul>
                     </div>
                     <div class="cart-info">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <span>Giỏ hàng</span>
+                        <span><a href="mainPage/Gio_hang.html" style="text-decoration: none;color: #333333;">Giỏ
+                                hàng</a></span>
                     </div>
                 </div>
             </div>
@@ -367,11 +380,14 @@
 
         <nav class="nav-bar">
             <ul>
-                <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
-                <li><a href="#"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
-                
+                <li><a href="mainPage/search_dafix.html?category=điện-thoại"><i class="fa-solid fa-mobile-screen"></i>
+                        Điện thoại</a></li>
+                <li><a href="mainPage/search_dafix.html?category=laptop"><i class="fa-solid fa-laptop"></i> Laptop</a>
+                </li>
+
                 <li class="has-dropdown">
-                    <a href="#"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <a href="mainPage/search_dafix.html?category=phụ-kiện"><i class="fa-solid fa-headphones"></i> Phụ
+                        kiện <i class="fa-solid fa-chevron-down small-icon"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Tai nghe</a></li>
                         <li><a href="#">Cáp, Sạc</a></li>
@@ -380,23 +396,18 @@
                         <li><a href="#">Thiết bị thông minh</a></li>
                     </ul>
                 </li>
-                
-                <li><a href="#"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
-                <li><a href="#"><i class="fa-solid fa-clock"></i> Đồng hồ</a></li>
-                <li><a href="#"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
-                
-                <li class="has-dropdown">
-                    <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down small-icon"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Điện thoại cũ</a></li>
-                        <li><a href="#">Máy tính bảng cũ</a></li>
-                        <li><a href="#">Định giá thu cũ đổi mới</a></li>
-                    </ul>
+
+                <li><a href="mainPage/search_dafix.html?category=smartwatch"><i class="fa-regular fa-clock"></i>
+                        Smartwatch</a></li>
+                <li><a href="mainPage/search_dafix.html?category=đồng-hồ"><i class="fa-solid fa-clock"></i> Đồng hồ</a>
                 </li>
-                
-                <li><a href="#"><i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
-                <li><a href="#"><i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
-                <li><a href="#"><i class="fa-solid fa-wrench"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="mainPage/search_dafix.html?category=tablet"><i
+                            class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+
+                <li><a href="mainPage/search_dafix.html?category=màn-hình"><i class="fa-solid fa-desktop"></i> Màn hình
+                        <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="mainPage/search_dafix.html?category=sim"><i class="fa-solid fa-sim-card"></i> Sim <i
+                            class="fa-solid fa-chevron-down small-icon"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -410,41 +421,61 @@
                     <input type="text" id="searchInput" placeholder="Tìm kiếm đơn hàng...">
                 </div>
             </div>
-            
+
             <div id="statusMessage" class="status-message hidden"></div>
-            
+
             <div id="orderList" class="order-list">
-                </div>
+            </div>
         </div>
     </main>
 
     <script>
         // CẤU HÌNH ĐƯỜNG DẪN API ĐỂ TRUY XUẤT DATABASE THẬT
         // ĐỔI ĐƯỜNG DẪN SQL NHÉ
-        
+
         const userName = localStorage.getItem("User_name");
-        const API_URL = `http://localhost:8080/api/invoices/user/${userName}`;
- 
-        let currentOrders = []; 
+        const API_URL = `http://localhost:8080/api`;
+
+        let currentOrders = [];
 
         function formatCurrency(amount) {
-            if(!amount) return '0đ';
+            if (!amount) return '0đ';
             return amount.toLocaleString('vi-VN') + 'đ';
         }
 
-        /**
-         * TRUY XUẤT DATABASE THỰC TẾ 
-         */
+        async function fetchUserInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error("Token không tồn tại trong localStorage");
+                    return null;
+                }
+                const response = await fetch('http://localhost:8080/api/auth/protected', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const userInfo = await response.json();
+                document.getElementById('username').textContent = userInfo.user;
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+                return null; // Trả về null nếu có lỗi
+            }
+        }
         async function fetchOrderHistory() {
             const listContainer = document.getElementById('orderList');
             const statusMsg = document.getElementById('statusMessage');
 
             // [Exception Flow 3b]: Kiểm tra phiên đăng nhập từ phía client (Token/Session)
-            const userToken = localStorage.getItem('token'); 
+            const userToken = localStorage.getItem('token');
             if (!userToken) {
                 statusMsg.textContent = "Bạn chưa đăng nhập hoặc phiên làm việc hết hạn. Vui lòng đăng nhập.";
                 statusMsg.classList.remove('hidden');
-                // Thực tế: window.location.href = "/login";
+                window.location.href = "Dang_nhap.html"; // Chuyển hướng người dùng đến trang đăng nhập
                 return;
             }
 
@@ -454,7 +485,7 @@
                 statusMsg.classList.remove('hidden');
 
                 // [Main Flow - Bước 2, 3]: Gửi HTTP Request tới API để truy vấn DB thực tế
-                const response = await fetch(API_URL, {
+                const response = await fetch(`${API_URL}/invoices/user/${userName}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${userToken}`,
@@ -498,14 +529,14 @@
          */
         function renderOrders(orders) {
             const listContainer = document.getElementById('orderList');
-            listContainer.innerHTML = ''; 
-            
+            listContainer.innerHTML = '';
+
             orders.forEach(order => {
                 // Xử lý ảnh mặc định nếu không có dữ liệu từ DB
                 const imageUrl = order.prod_img ? order.prod_img : 'https://via.placeholder.com/80?text=No+Image';
 
                 // Lấy Prod_id từ Line hoặc prod_id từ Product
-                const productId = order.prod_id || order.Prod_id;
+                const productId = order.prod_id;
 
                 const itemHtml = `
                     <div class="order-item">
@@ -520,7 +551,7 @@
                             </div>
                         </div>
                         <div class="price-qty">
-                            <div class="price">${formatCurrency(order.Inv_price)}</div>
+                            <div class="price">${formatCurrency(parseFloat(order.inv_price))}</div>
                             <div class="quantity">
                                 🆔 Mã SP: ${productId || 'N/A'} <br>
                                 🔢 SL: ${order.quantity} <br>
@@ -536,19 +567,19 @@
         /**
          * [Alternative Flow 3a]: Bộ lọc / Tìm kiếm dữ liệu động dựa trên dữ liệu đã truy xuất
          */
-        document.getElementById('searchInput').addEventListener('input', function(e) {
+        document.getElementById('searchInput').addEventListener('input', function (e) {
             const keyword = e.target.value.toLowerCase();
             const statusMsg = document.getElementById('statusMessage');
             const listContainer = document.getElementById('orderList');
-            
+
             // Bước 3a2: Cập nhật lại danh sách hiển thị khớp với từ khóa
             // Đã cập nhật thuộc tính filter theo database mới (prod_name, status, Inv_id)
-            const filteredOrders = currentOrders.filter(order => 
-                (order.prod_name && order.prod_name.toLowerCase().includes(keyword)) || 
+            const filteredOrders = currentOrders.filter(order =>
+                (order.prod_name && order.prod_name.toLowerCase().includes(keyword)) ||
                 (order.status && order.status.toLowerCase().includes(keyword)) ||
                 (order.Inv_id && order.Inv_id.toLowerCase().includes(keyword))
             );
-            
+
             if (filteredOrders.length === 0) {
                 listContainer.innerHTML = '';
                 statusMsg.textContent = "Không tìm thấy kết quả đơn hàng phù hợp với bộ lọc.";
@@ -558,9 +589,16 @@
                 renderOrders(filteredOrders); // UC tiếp tục bước 4
             }
         });
-
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'Dang_nhap.html';
+        }
         // Trigger: Tự động chạy lấy dữ liệu từ database khi giao diện được tải xong
-        window.onload = fetchOrderHistory;
+        window.onload = function () {
+            fetchOrderHistory();
+            fetchUserInfo();
+        };
     </script>
 </body>
+
 </html>

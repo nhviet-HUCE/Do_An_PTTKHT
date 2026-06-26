@@ -8,9 +8,18 @@ exports.show_user_bills = async (req, res, next) => {
         const account = req.params.User_name;
 
         const sql = `
-            SELECT * 
-            FROM invoice 
-            WHERE User_name = ?
+            SELECT 
+    i.Inv_id,
+    p.prod_name,
+    p.prod_price,
+    prod_img,
+    l.prod_id,
+    l.quantity,
+    inv_price,
+    status
+FROM Line l
+JOIN Product p ON l.Prod_id = p.prod_id
+JOIN Invoice i ON l.Inv_id = i.Inv_id where user_name=?
         `;
 
         const hoaDon = await database.query(sql, [account]);
@@ -18,6 +27,38 @@ exports.show_user_bills = async (req, res, next) => {
         if (!hoaDon || hoaDon.length === 0) {
             return res.status(404).json({
                 message: `Không tìm thấy hóa đơn cho tài khoản ${account}`
+            });
+        }
+
+        res.json(hoaDon);
+    } catch (err) {
+        next(err);
+    }
+};
+exports.show_bill_detail = async (req, res, next) => {
+    try {
+        const id = req.params.Inv_id;
+
+        const sql = `
+            SELECT 
+    i.Inv_id,
+    p.prod_name,
+    p.prod_price,
+    prod_img,
+    l.prod_id,
+    l.quantity,
+    inv_price,
+    status
+FROM Line l
+JOIN Product p ON l.Prod_id = p.prod_id
+JOIN Invoice i ON l.Inv_id = i.Inv_id where i.Inv_id=?
+        `;
+
+        const hoaDon = await database.query(sql, [id]);
+
+        if (!hoaDon || hoaDon.length === 0) {
+            return res.status(404).json({
+                message: `Không tìm thấy hóa đơn cho mã ${id}`
             });
         }
 
@@ -175,7 +216,7 @@ exports.delete_bill = async (req, res, next) => {
 
         // Kiểm tra xem hóa đơn có status là "Chờ" không
         const invoice = await database.query('SELECT * FROM invoice WHERE Inv_id = ?', [invId]);
-        
+
         if (!invoice || invoice.length === 0) {
             return res.status(404).json({ message: 'Hóa đơn không tồn tại' });
         }
@@ -198,7 +239,7 @@ exports.delete_bill = async (req, res, next) => {
         // Xóa hóa đơn
         await database.execute('DELETE FROM invoice WHERE Inv_id = ?', [invId]);
 
-        res.json({ 
+        res.json({
             message: 'Hủy đơn hàng thành công',
             data: { Inv_id: invId }
         });
