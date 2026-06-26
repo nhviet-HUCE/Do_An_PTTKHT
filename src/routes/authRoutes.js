@@ -7,7 +7,9 @@ const { authMiddleware, adminMiddleware } = require('../middlewares/authMiddlewa
 router.post('/login', authController.login);
 router.post('/register', authController.register);
 router.get('/protected', authMiddleware, userController.loadCurrentUser, (req, res) => {
-    res.json({ message: 'This is a protected route', user: req.currentUser.User_name });
+    res.json({ message: 'This is a protected route', 
+        user: req.currentUser.User_name,
+        phone_num:req.currentUser.phone_num});
 });
 router.get('/admin', authMiddleware, userController.loadCurrentUser, adminMiddleware, (req, res) => {
     res.json({ message: 'This is an admin route', user: req.currentUser.User_name });

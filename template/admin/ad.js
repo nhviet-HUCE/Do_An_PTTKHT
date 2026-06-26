@@ -233,7 +233,7 @@ function goLogin() {
 
     localStorage.removeItem("token");
     localStorage.removeItem("managerName");
-    window.location.href = "Dang_nhap.html";
+    window.location.href = "../Dang_nhap.html";
 
 }
 //chọn sạn phẩm
