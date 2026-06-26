@@ -49,7 +49,7 @@ exports.show_all_bills = async (req, res, next) => {
 exports.create_bill = async (req, res, next) => {
     try {
         const account = req.params.User_name;
-        const { thong_tin_khach_hang, gia_tien, chi_tiet, dc_shop } = req.body;
+        const { thong_tin_khach_hang, gia_tien, chi_tiet } = req.body;
 
         // ===== 1. Hàm random 5 số =====
         const random5 = () => Math.floor(10000 + Math.random() * 90000);
@@ -77,7 +77,7 @@ exports.create_bill = async (req, res, next) => {
             finalGiaTien,
             thongTinKH,
             maVanDon,
-            dc_shop,
+            '123 trương định',
             "Chờ"
         ]);
 
@@ -115,7 +115,6 @@ exports.create_bill = async (req, res, next) => {
         next(err);
     }
 };
-
 exports.update_pending_bills = async (req, res) => {
     try {
         const { ma_hoa_don, trang_thai } = req.body;
@@ -131,9 +130,9 @@ exports.update_pending_bills = async (req, res) => {
             });
         }
 
-        
+
         if (trang_thai === "chap_nhan") {
-            
+
             await database.execute(
                 "UPDATE invoice SET status = 'Chấp nhận' WHERE Inv_id = ?",
                 [ma_hoa_don]
@@ -145,7 +144,7 @@ exports.update_pending_bills = async (req, res) => {
             });
 
         } else if (trang_thai === "huy") {
-            
+
             await database.execute(
                 "UPDATE invoice SET status = 'Hủy' WHERE Inv_id = ?",
                 [ma_hoa_don]
@@ -168,5 +167,43 @@ exports.update_pending_bills = async (req, res) => {
         return res.status(500).json({
             error: err.message
         });
+    }
+};
+exports.delete_bill = async (req, res, next) => {
+    try {
+        const invId = req.params.Inv_id;
+
+        // Kiểm tra xem hóa đơn có status là "Chờ" không
+        const invoice = await database.query('SELECT * FROM invoice WHERE Inv_id = ?', [invId]);
+        
+        if (!invoice || invoice.length === 0) {
+            return res.status(404).json({ message: 'Hóa đơn không tồn tại' });
+        }
+
+        if (invoice[0].status !== 'Chờ') {
+            return res.status(400).json({ message: 'Chỉ có thể hủy đơn có trạng thái "Chờ"' });
+        }
+
+        // Lấy thông tin sản phẩm trong đơn hàng để xóa trong cart
+        const lineItems = await database.query('SELECT * FROM line WHERE Inv_id = ?', [invId]);
+
+        // Xóa từng sản phẩm khỏi cart (nếu còn)
+        for (const item of lineItems) {
+            await database.execute('DELETE FROM cart WHERE prod_id = ?', [item.Prod_id]);
+        }
+
+        // Xóa chi tiết hóa đơn (bảng line)
+        await database.execute('DELETE FROM line WHERE Inv_id = ?', [invId]);
+
+        // Xóa hóa đơn
+        await database.execute('DELETE FROM invoice WHERE Inv_id = ?', [invId]);
+
+        res.json({ 
+            message: 'Hủy đơn hàng thành công',
+            data: { Inv_id: invId }
+        });
+
+    } catch (err) {
+        next(err);
     }
 };

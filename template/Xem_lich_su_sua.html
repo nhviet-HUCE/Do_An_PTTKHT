@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử mua hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+/*  --  HEADER  --  */
+.top-bar {
+    background-color: #61AFFE;
+    padding: 10px 20px 20px 20px;
+    position: relative;
+    border: 1px solid #000;
+    border-bottom: none;
+}
+
+.help-link {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    color: #0b5ed7;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 15px auto 0;
+    padding: 0 10px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+.logo i {
+    font-size: 40px;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+
+.brand {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.domain {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.search-bar {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+    margin: 0 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    font-size: 18px;
+}
+
+.user-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.user-info, .cart-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.user-info i, .cart-info i {
+    font-size: 22px;
+}
+
+.nav-bar {
+    background-color: #FDD835;
+    border: 1px solid #000;
+}
+
+.nav-bar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 10px;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-bar a:hover {
+    font-weight: bold;
+}
+
+.small-icon {
+    font-size: 10px;
+}
+
+.has-dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #eaeaea;
+    border-radius: 0 0 5px 5px;
+    padding: 10px 0;
+    z-index: 100;
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0 !important; 
+}
+
+.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    padding: 12px 20px !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    display: block;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+    color: #1976D2 !important; 
+    padding-left: 25px !important; 
+    transition: padding-left 0.2s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+}
+*/
+        /* --- Main Content --- */
+        .main-content {
+            padding: 30px 50px;
+        }
+
+        .history-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #ddd;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .history-header h2 {
+            font-size: 22px;
+        }
+
+        .search-history {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 15px;
+            width: 400px;
+        }
+
+        .search-history input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 5px;
+        }
+
+        /* --- Order List & Items --- */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .product-img {
+            width: 80px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-title-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-name {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .status-btn {
+            border: 1px solid #333;
+            background: white;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .price-qty {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .price {
+            color: #e60000;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .quantity {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* --- Messages --- */
+        .status-message {
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: #e60000;
+            background: #ffe6e6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+ 
+    <header>
+        <div class="top-bar">
+            <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
+            <div class="header-main">
+                <a href="Trangchu.html" class="logo">
+    <i class="fa-solid fa-globe"></i>
+    <div class="logo-text">
+        <span class="brand">sieuthicongnghe</span>
+        <span class="domain">.com</span>
+    </div>
+</a>
+
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="">
+                </div>
+
+                <div class="user-actions">
+                    <div class="user-info">
+                        <i class="fa-regular fa-circle-user"></i>
+                        <span>Tên khách hàng</span>
+                    </div>
+                    <div class="cart-info">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
+                <li><a href="#"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
+                
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Tai nghe</a></li>
+                        <li><a href="#">Cáp, Sạc</a></li>
+                        <li><a href="#">Ốp lưng, Bao da</a></li>
+                        <li><a href="#">Pin dự phòng</a></li>
+                        <li><a href="#">Thiết bị thông minh</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
+                <li><a href="#"><i class="fa-solid fa-clock"></i> Đồng hồ</a></li>
+                <li><a href="#"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+                
+                <li class="has-dropdown">
+                    <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down small-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Điện thoại cũ</a></li>
+                        <li><a href="#">Máy tính bảng cũ</a></li>
+                        <li><a href="#">Định giá thu cũ đổi mới</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#"><i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="#"><i class="fa-solid fa-wrench"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down small-icon"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="history-container">
+            <div class="history-header">
+                <h2>Lịch sử mua hàng</h2>
+                <div class="search-history">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm đơn hàng...">
+                </div>
+            </div>
+            
+            <div id="statusMessage" class="status-message hidden"></div>
+            
+            <div id="orderList" class="order-list">
+                </div>
+        </div>
+    </main>
+
+    <script>
+        // CẤU HÌNH ĐƯỜNG DẪN API ĐỂ TRUY XUẤT DATABASE THẬT
+        // ĐỔI ĐƯỜNG DẪN SQL NHÉ
+        
+        const userName = localStorage.getItem("User_name");
+        const API_URL = `http://localhost:8080/api/invoices/user/${userName}`;
+ 
+        let currentOrders = []; 
+
+        function formatCurrency(amount) {
+            if(!amount) return '0đ';
+            return amount.toLocaleString('vi-VN') + 'đ';
+        }
+
+        /**
+         * TRUY XUẤT DATABASE THỰC TẾ 
+         */
+        async function fetchOrderHistory() {
+            const listContainer = document.getElementById('orderList');
+            const statusMsg = document.getElementById('statusMessage');
+
+            // [Exception Flow 3b]: Kiểm tra phiên đăng nhập từ phía client (Token/Session)
+            const userToken = localStorage.getItem('token'); 
+            if (!userToken) {
+                statusMsg.textContent = "Bạn chưa đăng nhập hoặc phiên làm việc hết hạn. Vui lòng đăng nhập.";
+                statusMsg.classList.remove('hidden');
+                // Thực tế: window.location.href = "/login";
+                return;
+            }
+
+            try {
+                // Hiển thị trạng thái đang kết nối cơ sở dữ liệu
+                statusMsg.textContent = "Đang kết nối cơ sở dữ liệu để truy xuất đơn hàng...";
+                statusMsg.classList.remove('hidden');
+
+                // [Main Flow - Bước 2, 3]: Gửi HTTP Request tới API để truy vấn DB thực tế
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // [Exception Flow 3d]: Server trả về mã lỗi không kết nối được (ví dụ: sập DB hoặc sai route)
+                if (!response.ok) {
+                    throw new Error("Lỗi kết nối hoặc hệ thống gặp sự cố phản hồi.");
+                }
+
+                // Nhận mảng dữ liệu JSON được lấy trực tiếp từ các câu lệnh query ở DB
+                const data = await response.json();
+                console.log(data);
+                statusMsg.classList.add('hidden'); // Ẩn thông báo trạng thái tải
+
+                // [Exception Flow 3c]: Database không tìm thấy bản ghi đơn hàng nào của tài khoản này
+                if (!data || data.length === 0) {
+                    statusMsg.textContent = "Bạn chưa có đơn hàng nào.";
+                    statusMsg.classList.remove('hidden');
+                    listContainer.innerHTML = '';
+                    return;
+                }
+
+                // [Main Flow - Bước 4]: Trả về kết quả thành công và lưu vào mảng nghiệp vụ hiện tại
+                currentOrders = data;
+                renderOrders(currentOrders);
+
+            } catch (error) {
+                // [Exception Flow 3d]: Lỗi bắt nguồn từ mất kết nối internet/mạng hoặc server không phản hồi
+                statusMsg.textContent = "Hệ thống gặp lỗi kết nối mạng hoặc server không phản hồi. Vui lòng kiểm tra lại.";
+                statusMsg.classList.remove('hidden');
+                listContainer.innerHTML = '';
+                console.log(error);
+            }
+        }
+
+        /**
+         * ĐỔ DỮ LIỆU ĐÃ TRUY XUẤT LÊN GIAO DIỆN HTML (Main Flow Bước 4)
+         */
+        function renderOrders(orders) {
+            const listContainer = document.getElementById('orderList');
+            listContainer.innerHTML = ''; 
+            
+            orders.forEach(order => {
+                // Xử lý ảnh mặc định nếu không có dữ liệu từ DB
+                const imageUrl = order.prod_img ? order.prod_img : 'https://via.placeholder.com/80?text=No+Image';
+
+                // Lấy Prod_id từ Line hoặc prod_id từ Product
+                const productId = order.prod_id || order.Prod_id;
+
+                const itemHtml = `
+                    <div class="order-item">
+                        <img src="${imageUrl}" alt="Sản phẩm" class="product-img">
+                        <div class="product-info">
+                            <div class="product-title-row">
+                                <span class="product-name">Đơn hàng: ${order.Inv_id}</span>
+                                <span class="status-btn">${order.status || 'Chờ xử lý'}</span>
+                            </div>
+                            <div style="color: #666; font-size: 14px; margin-top: 5px;">
+                                🏷 ${order.prod_name || 'Không rõ tên SP'}
+                            </div>
+                        </div>
+                        <div class="price-qty">
+                            <div class="price">${formatCurrency(order.Inv_price)}</div>
+                            <div class="quantity">
+                                🆔 Mã SP: ${productId || 'N/A'} <br>
+                                🔢 SL: ${order.quantity} <br>
+                                💰 Đơn giá: ${formatCurrency(order.prod_price)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                listContainer.insertAdjacentHTML('beforeend', itemHtml);
+            });
+        }
+
+        /**
+         * [Alternative Flow 3a]: Bộ lọc / Tìm kiếm dữ liệu động dựa trên dữ liệu đã truy xuất
+         */
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const keyword = e.target.value.toLowerCase();
+            const statusMsg = document.getElementById('statusMessage');
+            const listContainer = document.getElementById('orderList');
+            
+            // Bước 3a2: Cập nhật lại danh sách hiển thị khớp với từ khóa
+            // Đã cập nhật thuộc tính filter theo database mới (prod_name, status, Inv_id)
+            const filteredOrders = currentOrders.filter(order => 
+                (order.prod_name && order.prod_name.toLowerCase().includes(keyword)) || 
+                (order.status && order.status.toLowerCase().includes(keyword)) ||
+                (order.Inv_id && order.Inv_id.toLowerCase().includes(keyword))
+            );
+            
+            if (filteredOrders.length === 0) {
+                listContainer.innerHTML = '';
+                statusMsg.textContent = "Không tìm thấy kết quả đơn hàng phù hợp với bộ lọc.";
+                statusMsg.classList.remove('hidden');
+            } else {
+                statusMsg.classList.add('hidden');
+                renderOrders(filteredOrders); // UC tiếp tục bước 4
+            }
+        });
+
+        // Trigger: Tự động chạy lấy dữ liệu từ database khi giao diện được tải xong
+        window.onload = fetchOrderHistory;
+    </script>
+</body>
+</html>

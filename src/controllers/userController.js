@@ -82,6 +82,7 @@ exports.createUser = async (req, res, next) => {
         next(err);
     }
 };
+
 exports.addMember = async (req, res, next) => {
     try {
         const { User_name, address } = req.body;
