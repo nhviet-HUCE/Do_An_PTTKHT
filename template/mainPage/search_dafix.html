@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết quả tìm kiếm - Siêu thị công nghệ</title>
-    <link rel="stylesheet" href="Trangchu.css">
+    <link rel="stylesheet" href="Trangchu_dafix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -15,7 +15,7 @@
         <div class="top-bar">
             <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
             <div class="header-main">
-                <a href="Trangchu.html" class="logo">
+                <a href="Trangchu_dafix.html" class="logo">
                     <i class="fa-solid fa-globe"></i>
                     <div class="logo-text">
                         <span class="brand">sieuthicongnghe</span>
@@ -24,39 +24,50 @@
                 </a>
 
                 <div class="search-bar">
-                    <form action="search.html" method="GET">
+                  <form action="search_dafix.html" method="GET">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="search" id="searchInput" name="keyword" placeholder="Tìm kiếm sản phẩm...">
                     </form>
                 </div>
 
                 <div class="user-actions">
-                    <div class="user-info">
-                        <i class="fa-regular fa-circle-user"></i>
-                        <span>Tên khách hàng</span>
-                    </div>
-                    <div class="cart-info">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span>Giỏ hàng</span>
-                    </div>
+    <div class="user-info has-dropdown">
+        <i class="fa-regular fa-circle-user"></i>
+        <span id="username">Tên khách hàng</span>
+        
+        <ul class="dropdown-menu user-dropdown" id="logout-options">
+            <li><a href="../Dang_nhap.html">Đăng nhập</a></li>
+            <li><a href="../Dang_ky.html">Đăng ký</a></li>
+        </ul>
+    </div>
+    <div class="cart-info">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span><a href="../Gio_hang.html" style="text-decoration: none;color: #333333;">Giỏ hàng</a></span>
+    </div>
+</div>
                 </div>
             </div>
         </div>
 
         <nav class="nav-bar">
             <ul>
-                <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
-                <li><a href="#"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
+                <li><a href="search_dafix.html?category=điện-thoại"><i class="fa-solid fa-mobile-screen"></i> Điện thoại</a></li>
+                <li><a href="search_dafix.html?category=laptop"><i class="fa-solid fa-laptop"></i> Laptop</a></li>
                 <li class="has-dropdown">
-                    <a href="#"><i class="fa-solid fa-headphones"></i> Phụ kiện <i
+                    <a href="search_dafix.html?category=phụ-kiện"><i class="fa-solid fa-headphones"></i> Phụ kiện <i
                             class="fa-solid fa-chevron-down small-icon"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Tai nghe</a></li>
-                        <li><a href="#">Cáp, Sạc</a></li>
+                        <li><a href="search_dafix.html?category=tai-nghe">Tai nghe</a></li>
+                        <li><a href="search_dafix.html?category=cáp-sạc">Cáp, Sạc</a></li>
                     </ul>
                 </li>
-                <li><a href="#"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
-                <li><a href="#"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+                <li><a href="search_dafix.html?category=smartwatch"><i class="fa-regular fa-clock"></i> Smartwatch</a></li>
+                <li><a href="search_dafix.html?category=đồng-hồ"><i class="fa-solid fa-clock"></i> Đồng hồ</a></li>
+                <li><a href="search_dafix.html?category=tablet"><i class="fa-solid fa-tablet-screen-button"></i> Tablet</a></li>
+                                <li><a href="search_dafix.html?category=màn-hình"><i class="fa-solid fa-desktop"></i> Màn hình <i
+                            class="fa-solid fa-chevron-down small-icon"></i></a></li>
+                <li><a href="search_dafix.html?category=sim"><i class="fa-solid fa-sim-card"></i> Sim <i
+                            class="fa-solid fa-chevron-down small-icon"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -152,7 +163,7 @@
                 productCard.classList.add('product-card');
                 productCard.innerHTML = `
                         <img src="${item.prod_img}" alt="${item.prod_name}">
-                        <a href="detail.html?id=${item.prod_id}" class="stretched-link" title="${item.prod_name}"></a>
+                        <a href="detail_dafix.html?id=${item.prod_id}" class="stretched-link" title="${item.prod_name}"></a>
                         <h3 class="product-name" title="${item.prod_name}">${item.prod_name}</h3>
                         <div class="product-price">${fmtGia(item.prod_price)}</div>
                     `;
@@ -168,7 +179,46 @@
                 : n.toLocaleString("vi-VN");
 
         }
+        async function fetchUserInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error("Token không tồn tại trong localStorage");
+                    return null;
+                }
+                const response = await fetch('http://localhost:8080/api/auth/protected', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const userInfo = await response.json();
+                document.getElementById('username').textContent = userInfo.user;
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+                return null; // Trả về null nếu có lỗi
+            }
+        }
+        function checkLogin() {
+            const token = localStorage.getItem('token');
+            const logoutOptions = document.getElementById('logout-options');
+            if (token) {
+                fetchUserInfo();
+                logoutOptions.innerHTML = '<li><a href="../Dang_nhap.html" id="logout-link">Đăng xuất</a></li>';
+                document.getElementById('logout-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+                    localStorage.removeItem('token');
+                    window.location.href = '../Dang_nhap.html';
+                });
+            } else {
+                document.getElementById('username').textContent = 'Guest';
+            }
+        }
         window.addEventListener('DOMContentLoaded', renderSearchResults);
+        window.addEventListener('DOMContentLoaded', checkLogin);
     </script>
 
 </body>

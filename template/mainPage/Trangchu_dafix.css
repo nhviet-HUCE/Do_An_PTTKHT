@@ -88,7 +88,15 @@ body {
     color: #000;
     font-size: 18px;
 }
-
+.stretched-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    text-decoration: none;
+}
 .user-actions {
     display: flex;
     gap: 20px;
@@ -177,15 +185,7 @@ main {
     align-items: center;
     min-width: 0; 
 }
-.stretched-link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    text-decoration: none;
-}
+
 .product-card img {
     width: 100%;
     max-width: 180px;
@@ -276,7 +276,7 @@ main {
     transform: translateY(15px);
     transition: all 0.3s ease;
     
-
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0 !important; 
@@ -608,4 +608,19 @@ main {
     gap: 10px;
     color: white;
     text-decoration: none;
+}
+.user-dropdown {
+    right: 0;
+    min-width: 150px;
+}
+
+
+.user-info.has-dropdown::after {
+    content: "";
+    position: absolute;
+    bottom: -15px; 
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: transparent;
 }

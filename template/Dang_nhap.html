@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +21,16 @@
 
         /* --- HEADER --- */
         header {
-            background-color: #72bbf5; /* Màu xanh nước biển header */
+            background-color: #72bbf5;
+            /* Màu xanh nước biển header */
             display: flex;
-            justify-content: flex-start; /* Đổi thành flex-start để các phần tử dồn về bên trái sát logo */
+            justify-content: flex-start;
+            /* Đổi thành flex-start để các phần tử dồn về bên trái sát logo */
             align-items: center;
-            padding: 25px 40px; 
+            padding: 25px 40px;
             position: relative;
-            gap: 40px; /* Khoảng cách giữa Logo và Khối tìm kiếm/hành động */
+            gap: 40px;
+            /* Khoảng cách giữa Logo và Khối tìm kiếm/hành động */
         }
 
         .logo-area {
@@ -36,7 +40,8 @@
             font-weight: bold;
             font-style: italic;
             cursor: pointer;
-            flex-shrink: 0; /* Giữ nguyên kích thước logo không bị co lại */
+            flex-shrink: 0;
+            /* Giữ nguyên kích thước logo không bị co lại */
         }
 
         .logo-area i {
@@ -48,16 +53,19 @@
         /* Nhóm Tìm kiếm & Hành động lại với nhau */
         .header-right-group {
             display: flex;
-            justify-content: flex-end; /* Đẩy nhóm này về bên phải */
+            justify-content: flex-end;
+            /* Đẩy nhóm này về bên phải */
             align-items: center;
-            gap: 25px; /* Khoảng cách giữa thanh tìm kiếm và Đăng nhập/Giỏ hàng */
+            gap: 25px;
+            /* Khoảng cách giữa thanh tìm kiếm và Đăng nhập/Giỏ hàng */
             width: 100%;
-            max-width: 750px; 
+            max-width: 750px;
         }
 
         .search-bar {
             width: 100%;
-            max-width: 400px; /* Giới hạn độ dài thanh tìm kiếm */
+            max-width: 400px;
+            /* Giới hạn độ dài thanh tìm kiếm */
             position: relative;
         }
 
@@ -109,7 +117,8 @@
 
         /* --- NAVIGATION BAR & DROPDOWN --- */
         nav {
-            background-color: #fbd015; /* Màu vàng */
+            background-color: #fbd015;
+            /* Màu vàng */
             display: flex;
             justify-content: center;
             padding: 12px 0;
@@ -127,6 +136,9 @@
             padding: 5px 8px;
             border-radius: 5px;
             transition: background 0.2s;
+            text-decoration: none;
+            color: inherit;
+            white-space: nowrap;
         }
 
         .nav-item:hover {
@@ -147,7 +159,7 @@
             transform: translateX(-50%);
             background-color: #fff;
             min-width: 220px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             padding: 15px;
             z-index: 100;
@@ -231,7 +243,7 @@
             width: 420px;
             border-radius: 24px;
             padding: 40px 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #4aace8;
         }
 
@@ -306,15 +318,16 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
         <a href="#" class="help-link">Bạn cần giúp đỡ?</a>
-        <div class="logo-area">
+        <div class="logo-area" onclick="window.location.href='./mainPage/Trangchu_dafix.html'">
             <i class="fa-solid fa-globe"></i>
             <div>sieuthicongnghe<br><span style="font-size: 14px;">.com</span></div>
         </div>
-        
+
         <div class="header-right-group">
             <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -328,61 +341,39 @@
                 </div>
                 <div class="action-item">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span>Giỏ hàng</span>
+                        <span><a href="./Gio_hang.html" style="text-decoration: none;color: #333333;">Giỏ hàng</a></span>
                 </div>
             </div>
         </div>
     </header>
 
     <nav>
-        <div class="nav-item">
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=điện-thoại">
             <i class="fa-solid fa-mobile-screen"></i> Điện thoại
-        </div>
-        <div class="nav-item">
+        </a>
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=laptop">
             <i class="fa-solid fa-laptop"></i> Laptop
-        </div>
-        <div class="nav-item">
+        </a>
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=phụ-kiện">
             <i class="fa-solid fa-headphones"></i> Phụ kiện <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="nav-item">
+        </a>
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=smartwatch">
             <i class="fa-regular fa-clock"></i> Smartwatch
-        </div>
-        <div class="nav-item">
+        </a>
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=đồng-hồ">
             <i class="fa-regular fa-clock"></i> Đồng hồ
-        </div>
+        </a>
 
-        <div class="nav-item">
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=tablet">
             <i class="fa-solid fa-tablet-screen-button"></i> Tablet <i class="fa-solid fa-chevron-down"></i>
-            <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/522/280717/s16/ipad-gen-9-silver-650x650.png" alt="Máy tính bảng">
-                    <span>Máy tính bảng</span>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/522/293674/s16/may-doc-sach-boox-poke-4-lite-den-650x650.png" alt="Máy đọc sách">
-                    <span>Máy đọc sách</span>
-                </a>
-            </div>
-        </div>
+        </a>
 
-        <div class="nav-item">
-            <i class="fa-solid fa-mobile-screen"></i> Máy cũ, Thu cũ <i class="fa-solid fa-chevron-down"></i>
-            <div class="dropdown-content">
-                <span style="font-size: 12px; color: #666;">(Các sản phẩm sẽ thêm sau)</span>
-            </div>
-        </div>
-        <div class="nav-item">
-            <i class="fa-solid fa-desktop"></i> Màn hình, Máy in <i class="fa-solid fa-chevron-down"></i>
-            <div class="dropdown-content">
-                <span style="font-size: 12px; color: #666;">(Các sản phẩm sẽ thêm sau)</span>
-            </div>
-        </div>
-        <div class="nav-item">
-            <i class="fa-solid fa-sim-card"></i> Sim, Thẻ cào <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="nav-item">
-            <i class="fa-solid fa-bolt"></i> Dịch vụ tiện ích <i class="fa-solid fa-chevron-down"></i>
-        </div>
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=màn-hình">
+            <i class="fa-solid fa-desktop"></i> Màn hình <i class="fa-solid fa-chevron-down"></i>
+        </a>
+        <a class="nav-item" href="./mainPage/search_dafix.html?category=sim">
+            <i class="fa-solid fa-sim-card"></i> Sim <i class="fa-solid fa-chevron-down"></i>
+        </a>
     </nav>
 
     <main>
@@ -401,7 +392,7 @@
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" id="passwordInput" placeholder="Nhập mật khẩu" required>
                 </div>
-                
+
                 <button type="submit" class="submit-btn">Tiếp Tục</button>
 
                 <div class="form-links">
@@ -418,7 +409,7 @@
             e.preventDefault();
             const phone = document.getElementById('phoneInput').value;
             const password = document.getElementById('passwordInput').value;
-            
+
             try {
                 const response = await fetch('http://localhost:8080/api/auth/login', {
                     method: 'POST',
@@ -439,11 +430,12 @@
                 if (data.user.role === "admin") {
                     return window.location.href = './admin/ad.html';
                 }
-                return window.location.href = './mainPage/Trangchu.html';
+                return window.location.href = './mainPage/Trangchu_dafix.html';
             } catch (error) {
                 console.error('Error:', error);
             }
         });
     </script>
 </body>
+
 </html>
