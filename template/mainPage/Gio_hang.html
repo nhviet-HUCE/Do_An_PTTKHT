@@ -524,7 +524,9 @@
             try {
                 if (!token) {
                     document.getElementById('username').textContent = 'Guest';
-                    return null;
+                    alert('Vui lòng đăng nhập');
+                    window.location.href='../Dang_nhap.html';
+                    return ;
                 }
 
                 const response = await fetch(`${API_BASE_URL}/auth/protected`, {
@@ -984,7 +986,6 @@
             window.location.href = '../Dang_nhap.html';
         }
         window.addEventListener('DOMContentLoaded', async () => {
-            await loadCustomerInfo();
             await renderCart();
         });
     </script>

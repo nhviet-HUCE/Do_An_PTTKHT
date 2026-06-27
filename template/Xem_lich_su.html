@@ -473,6 +473,7 @@
             if (!userToken) {
                 statusMsg.textContent = "Bạn chưa đăng nhập hoặc phiên làm việc hết hạn. Vui lòng đăng nhập.";
                 statusMsg.classList.remove('hidden');
+                alert('Vui lòng đăng nhập');
                 window.location.href = "Dang_nhap.html"; // Chuyển hướng người dùng đến trang đăng nhập
                 return;
             }
