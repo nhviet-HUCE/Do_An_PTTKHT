@@ -302,7 +302,17 @@ async function addProduct() {
 
     var prod_status =
         document.getElementById("f-trangthai").value.trim();
+     if (
+    prod_status !== "available" &&
+    prod_status !== "unavailable"
+) {
 
+    alert(
+        "Vui lòng chọn trạng thái Available hoặc Unavailable!"
+    );
+
+    return;
+}
     var prod_price =
         parseFloat(document.getElementById("f-gia").value) || 1;
 
@@ -354,7 +364,17 @@ async function updateProduct() {
 
     var prod_status =
         document.getElementById("f-trangthai").value.trim();
+    if (
+    prod_status !== "available" &&
+    prod_status !== "unavailable"
+) {
 
+    alert(
+        "Vui lòng chọn trạng thái Available hoặc Unavailable!"
+    );
+
+    return;
+}
     var prod_price =
         parseFloat(document.getElementById("f-gia").value) || 1;
 
@@ -425,7 +445,7 @@ function clearForm() {
         "f-sl"
     ].forEach(function (id) {
 
-        document.getElementById(id).value = "";
+        document.getElementById(id)..selectedIndex = 0;
 
     });
     document.getElementById("img-preview").src = "";
