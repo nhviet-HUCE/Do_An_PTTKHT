@@ -17,7 +17,6 @@
 
         body {
             background-color: #f4f4f4;
-            padding: 20px;
         }
 
         /*  --  HEADER  --  */
@@ -28,7 +27,9 @@
             border: 1px solid #000;
             border-bottom: none;
         }
-
+        .top-bar a{
+            text-decoration: none;
+        }
         .help-link {
             position: absolute;
             top: 5px;
@@ -178,6 +179,7 @@
             display: flex;
             flex-direction: column;
             gap: 0 !important;
+            text-decoration: none;
         }
 
         .has-dropdown:hover .dropdown-menu {
@@ -401,8 +403,9 @@
                         <i class="fa-regular fa-circle-user"></i>
                         <span id="username">Guest</span>
 
-                        <ul class="dropdown-menu user-dropdown" id="logout-options">
-                            <li><span onclick="logout()">Đăng xuất</span></li>
+                        <ul class="dropdown-menu" id="logout-options">
+                            <li><a href="../Xem_lich_su.html">Lịch sử mua hàng</a></li>
+                            <li><a onclick="logout()">Đăng xuất</a></li>
                         </ul>
                     </div>
                     <div class="cart-info">
@@ -518,15 +521,47 @@
         function formatMoney(amount) {
             return parseInt(amount).toLocaleString('vi-VN') + 'đ';
         }
-
+        async function getAddress(username) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/address/${username}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                const text=await response.text()
+                if(!text) return null;
+                return JSON.parse(text);
+            } catch (err) {
+                alert('Lỗi: ' + err);
+            }
+        }
+        async function updateAddress(username,address) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/address/${username}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body:JSON.stringify({
+                        address:address
+                    })
+                });
+                return await response.json();
+            } catch (err) {
+                alert('Lỗi:' + err);
+            }
+        }
         // --- 1. LẤY THÔNG TIN KHÁCH HÀNG TỪ BẢNG User / Member TRONG MYSQL ---
         async function loadCustomerInfo() {
             try {
                 if (!token) {
                     document.getElementById('username').textContent = 'Guest';
                     alert('Vui lòng đăng nhập');
-                    window.location.href='../Dang_nhap.html';
-                    return ;
+                    window.location.href = '../Dang_nhap.html';
+                    return;
                 }
 
                 const response = await fetch(`${API_BASE_URL}/auth/protected`, {
@@ -539,7 +574,7 @@
                 if (!response.ok) {
                     throw new Error('Không thể lấy thông tin người dùng');
                 }
-
+                
                 const customer = await response.json();
                 const usernameValue = customer?.user || '';
 
@@ -547,13 +582,14 @@
                 if (usernameValue) {
                     localStorage.setItem('User_name', usernameValue);
                 }
-
+                const userAddress=await getAddress(usernameValue);
                 document.getElementById('cust-name').value = usernameValue || '';
                 document.getElementById('cust-phone').value = customer?.phone_num || '';
                 document.getElementById('username').textContent = usernameValue || 'Guest';
 
-                if (customer?.address) {
-                    document.getElementById('cust-address').value = customer.address;
+                if (userAddress!==null) {
+                    console.log(userAddress);
+                    document.getElementById('cust-address').value = userAddress.address;
                 }
 
                 return usernameValue;
@@ -574,26 +610,25 @@
                     alert("Vui lòng nhập địa chỉ giao hàng!");
                     return;
                 }
+                const formerAddress = await getAddress(username);
+                if (formerAddress === null) {
+                    let response = await fetch(`${API_BASE_URL}/users/username/${username}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            User_name: username,
+                            address: address
+                        })
+                    });
 
-                const response = await fetch(`${API_BASE_URL}/users/username/${username}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        User_name: username,
-                        address: address
-                    })
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert("Cập nhật địa chỉ thành công!");
-                } else {
-                    alert("Lỗi cập nhật địa chỉ: " + (result.message || "Vui lòng thử lại"));
                 }
+                else{
+                    updateAddress(username,address);                  
+                }
+                alert('Cập nhập địa chỉ thành công');
             } catch (error) {
                 console.error("Lỗi khi cập nhật địa chỉ:", error);
                 alert("Lỗi khi cập nhật địa chỉ. Vui lòng kiểm tra console.");

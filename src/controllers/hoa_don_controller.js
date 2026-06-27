@@ -26,7 +26,7 @@ JOIN Invoice i ON l.Inv_id = i.Inv_id where user_name=?
         const hoaDon = await database.query(sql, [account]);
 
         if (!hoaDon || hoaDon.length === 0) {
-            return res.status(404).json({
+            return res.json({
                 message: `Không tìm thấy hóa đơn cho tài khoản ${account}`
             });
         }

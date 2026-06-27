@@ -6,6 +6,7 @@ var selectedIdx = -1;
 var connected = false;
 var filteredProducts = [];
 var selectedProductId = null;
+var imageURL = null;
 
 async function apiGetProducts() {
 
@@ -302,6 +303,19 @@ async function addProduct() {
 
     var prod_status =
         document.getElementById("f-trangthai").value.trim();
+     if (
+    prod_status !== "available" &&
+    prod_status !== "unavailable"
+) {
+
+    alert(
+        "Vui lòng chọn trạng thái Available hoặc Unavailable!"
+    );
+
+    return;
+}
+    
+    var prod_img = imageURL || "";
 
     var prod_price =
         parseFloat(document.getElementById("f-gia").value) || 1;
@@ -328,6 +342,7 @@ async function addProduct() {
         prod_price,
         prod_category,
         prod_description,
+        prod_img,
         prod_status
     });
 
@@ -354,7 +369,20 @@ async function updateProduct() {
 
     var prod_status =
         document.getElementById("f-trangthai").value.trim();
+    if (
+    prod_status !== "available" &&
+    prod_status !== "unavailable"
+) {
 
+    alert(
+        "Vui lòng chọn trạng thái Available hoặc Unavailable!"
+    );
+
+    return;
+}
+
+    var prod_img = imageURL || "";
+    console.log(prod_img);
     var prod_price =
         parseFloat(document.getElementById("f-gia").value) || 1;
 
@@ -369,6 +397,7 @@ async function updateProduct() {
             prod_price,
             prod_category,
             prod_description,
+            prod_img,
             prod_status
         }
     );
@@ -425,7 +454,7 @@ function clearForm() {
         "f-sl"
     ].forEach(function (id) {
 
-        document.getElementById(id).value = "";
+        document.getElementById(id).selectedIndex = 0;
 
     });
     document.getElementById("img-preview").src = "";
@@ -433,7 +462,10 @@ function clearForm() {
     "none";
 
     document.getElementById("img-placeholder").style.display =
-    "block"; 
+    "block";
+    
+    imageURL = null;
+    document.getElementById("img-upload").value = "";
 
 }
 
@@ -452,6 +484,39 @@ function fmtGia(g) {
 }
 
 // pre ảnh
+function compressImageDataUrl(dataUrl, maxWidth = 1200, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+
+        img.onload = function () {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const outputType = dataUrl.includes("image/png") ? "image/png" : "image/jpeg";
+            const compressedDataUrl = outputType === "image/png"
+                ? canvas.toDataURL("image/png")
+                : canvas.toDataURL("image/jpeg", quality);
+
+            resolve(compressedDataUrl);
+        };
+
+        img.onerror = reject;
+        img.src = dataUrl;
+    });
+}
+
 function previewImg(e) {
 
     var f = e.target.files[0];
@@ -460,10 +525,10 @@ function previewImg(e) {
 
     var r = new FileReader();
 
-    r.onload = function (ev) {
+    r.onload = async function (ev) {
+        const originalDataUrl = ev.target.result;
 
-        document.getElementById("img-preview").src =
-            ev.target.result;
+        document.getElementById("img-preview").src = originalDataUrl;
 
         document.getElementById("img-preview").style.display =
             "block";
@@ -471,6 +536,13 @@ function previewImg(e) {
         document.getElementById("img-placeholder").style.display =
             "none";
 
+        try {
+            imageURL = await compressImageDataUrl(originalDataUrl);
+            document.getElementById("img-preview").src = imageURL;
+        } catch (error) {
+            console.error("Không thể nén ảnh:", error);
+            imageURL = originalDataUrl;
+        }
     };
 
     r.readAsDataURL(f);

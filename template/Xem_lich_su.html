@@ -26,7 +26,9 @@
             border: 1px solid #000;
             border-bottom: none;
         }
-
+        .top-bar a{
+            text-decoration: none;
+        }
         .help-link {
             position: absolute;
             top: 5px;
@@ -417,7 +419,7 @@
             <div class="history-header">
                 <h2>Lịch sử mua hàng</h2>
                 <div class="search-history">
-                    <span class="search-icon">🔍</span>
+                    <!-- <span class="search-icon">🔍</span> -->
                     <input type="text" id="searchInput" placeholder="Tìm kiếm đơn hàng...">
                 </div>
             </div>
@@ -493,14 +495,14 @@
 
                 if (!response.ok) {
                     throw new Error("Lỗi kết nối hoặc hệ thống gặp sự cố phản hồi.");
+                    alert('lỗi');
                 }
 
                 // Nhận mảng dữ liệu JSON được lấy trực tiếp từ các câu lệnh query ở DB
                 const data = await response.json();
-                console.log(data);
                 statusMsg.classList.add('hidden'); // Ẩn thông báo trạng thái tải
 
-                if (!data || data.length === 0) {
+                if (data.message) {
                     statusMsg.textContent = "Bạn chưa có đơn hàng nào.";
                     statusMsg.classList.remove('hidden');
                     listContainer.innerHTML = '';

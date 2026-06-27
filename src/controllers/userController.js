@@ -82,7 +82,17 @@ exports.createUser = async (req, res, next) => {
         next(err);
     }
 };
-
+exports.getMemberAddress = async (req, res, next) => {
+    try {
+        const username = req.params.username;
+        const sql = 'select address from member where User_name=?';
+        const user=await db.execute(sql,[username]);
+        if (!user) return res.status(404).json({ message: 'User address not found' });
+        res.json(user[0]);
+    } catch (err) {
+        next(err);
+    }
+};
 exports.addMember = async (req, res, next) => {
     try {
         const { User_name, address } = req.body;
@@ -92,6 +102,17 @@ exports.addMember = async (req, res, next) => {
             message: "Thêm thành viên thành công",
             data: { User_name, address },
         });
+    } catch (err) {
+        next(err);
+    }
+};
+exports.updateAddress = async (req, res, next) => {
+    try {
+        const {address} = req.body;
+        const username = req.params.username;
+        const sql = 'update member set address= ? where User_name=?';
+        await db.execute(sql, [address, username]);
+        res.json({ message: "update address success" });
     } catch (err) {
         next(err);
     }

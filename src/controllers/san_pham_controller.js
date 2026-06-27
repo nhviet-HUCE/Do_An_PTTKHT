@@ -217,6 +217,7 @@ exports.add_product = async (req, res) => {
             prod_price,
             prod_category,
             prod_description,
+            prod_img,
             prod_status
         } = req.body;
         const random5= ()=>Math.floor(10000 + Math.random() * 90000);
@@ -242,9 +243,9 @@ exports.add_product = async (req, res) => {
         const result = await database.execute(
             `INSERT INTO product
              (prod_id, prod_name, prod_quantity, prod_price, 
-             prod_category, prod_description, prod_status)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [prod_id, prod_name, prod_quantity, prod_price, prod_category, prod_description, prod_status]
+             prod_category, prod_description, prod_img, prod_status)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [prod_id, prod_name, prod_quantity, prod_price, prod_category, prod_description, prod_img, prod_status]
         );
 
         return res.json({

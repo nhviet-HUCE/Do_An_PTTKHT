@@ -76,8 +76,6 @@ async function apiGetOrders() {
             }
         );
 
-    console.log(response);
-
     return await response.json();
 }
 
@@ -374,7 +372,9 @@ async function loadOrders() {
 
         orders =
             await apiGetOrders();
-
+        if(orders.message){
+            return;
+        }
         filteredOrders =
             [...orders];
 
