@@ -16,7 +16,9 @@ body {
     border: 1px solid #000;
     border-bottom: none;
 }
-
+.top-bar a{
+    text-decoration: none;
+}
 .help-link {
     position: absolute;
     top: 5px;
