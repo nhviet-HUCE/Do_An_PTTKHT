@@ -34,6 +34,7 @@
         <span id="username">Tên khách hàng</span>
         
         <ul class="dropdown-menu user-dropdown" id="logout-options">
+            <li><a href="../Xem_lich_su.html">Lịch sử mua hàng</a></li>
             <li><a href="../Dang_nhap.html">Đăng nhập</a></li>
             <li><a href="../Dang_ky.html">Đăng ký</a></li>
         </ul>
@@ -629,7 +630,7 @@
             const logoutOptions = document.getElementById('logout-options');
             if (token) {
                 fetchUserInfo();
-                logoutOptions.innerHTML = '<li><a href="../Dang_nhap.html" id="logout-link">Đăng xuất</a></li>';
+                logoutOptions.innerHTML = '<li><a href="../Xem_lich_su.html">Lịch sử mua hàng</a></li> <li><a href="../Dang_nhap.html" id="logout-link">Đăng xuất</a></li>';
                 document.getElementById('logout-link').addEventListener('click', function (event) {
                     event.preventDefault();
                     localStorage.removeItem('token');

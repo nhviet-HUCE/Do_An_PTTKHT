@@ -431,7 +431,6 @@
 
     <script>
         // CẤU HÌNH ĐƯỜNG DẪN API ĐỂ TRUY XUẤT DATABASE THẬT
-        // ĐỔI ĐƯỜNG DẪN SQL NHÉ
 
         const userName = localStorage.getItem("User_name");
         const API_URL = `http://localhost:8080/api`;
@@ -470,7 +469,6 @@
             const listContainer = document.getElementById('orderList');
             const statusMsg = document.getElementById('statusMessage');
 
-            // [Exception Flow 3b]: Kiểm tra phiên đăng nhập từ phía client (Token/Session)
             const userToken = localStorage.getItem('token');
             if (!userToken) {
                 statusMsg.textContent = "Bạn chưa đăng nhập hoặc phiên làm việc hết hạn. Vui lòng đăng nhập.";
@@ -484,7 +482,6 @@
                 statusMsg.textContent = "Đang kết nối cơ sở dữ liệu để truy xuất đơn hàng...";
                 statusMsg.classList.remove('hidden');
 
-                // [Main Flow - Bước 2, 3]: Gửi HTTP Request tới API để truy vấn DB thực tế
                 const response = await fetch(`${API_URL}/invoices/user/${userName}`, {
                     method: 'GET',
                     headers: {
@@ -493,7 +490,6 @@
                     }
                 });
 
-                // [Exception Flow 3d]: Server trả về mã lỗi không kết nối được (ví dụ: sập DB hoặc sai route)
                 if (!response.ok) {
                     throw new Error("Lỗi kết nối hoặc hệ thống gặp sự cố phản hồi.");
                 }
@@ -503,7 +499,6 @@
                 console.log(data);
                 statusMsg.classList.add('hidden'); // Ẩn thông báo trạng thái tải
 
-                // [Exception Flow 3c]: Database không tìm thấy bản ghi đơn hàng nào của tài khoản này
                 if (!data || data.length === 0) {
                     statusMsg.textContent = "Bạn chưa có đơn hàng nào.";
                     statusMsg.classList.remove('hidden');
@@ -511,12 +506,10 @@
                     return;
                 }
 
-                // [Main Flow - Bước 4]: Trả về kết quả thành công và lưu vào mảng nghiệp vụ hiện tại
                 currentOrders = data;
                 renderOrders(currentOrders);
 
             } catch (error) {
-                // [Exception Flow 3d]: Lỗi bắt nguồn từ mất kết nối internet/mạng hoặc server không phản hồi
                 statusMsg.textContent = "Hệ thống gặp lỗi kết nối mạng hoặc server không phản hồi. Vui lòng kiểm tra lại.";
                 statusMsg.classList.remove('hidden');
                 listContainer.innerHTML = '';
@@ -524,9 +517,6 @@
             }
         }
 
-        /**
-         * ĐỔ DỮ LIỆU ĐÃ TRUY XUẤT LÊN GIAO DIỆN HTML (Main Flow Bước 4)
-         */
         function renderOrders(orders) {
             const listContainer = document.getElementById('orderList');
             listContainer.innerHTML = '';
@@ -564,16 +554,12 @@
             });
         }
 
-        /**
-         * [Alternative Flow 3a]: Bộ lọc / Tìm kiếm dữ liệu động dựa trên dữ liệu đã truy xuất
-         */
+ 
         document.getElementById('searchInput').addEventListener('input', function (e) {
             const keyword = e.target.value.toLowerCase();
             const statusMsg = document.getElementById('statusMessage');
             const listContainer = document.getElementById('orderList');
 
-            // Bước 3a2: Cập nhật lại danh sách hiển thị khớp với từ khóa
-            // Đã cập nhật thuộc tính filter theo database mới (prod_name, status, Inv_id)
             const filteredOrders = currentOrders.filter(order =>
                 (order.prod_name && order.prod_name.toLowerCase().includes(keyword)) ||
                 (order.status && order.status.toLowerCase().includes(keyword)) ||
@@ -586,14 +572,13 @@
                 statusMsg.classList.remove('hidden');
             } else {
                 statusMsg.classList.add('hidden');
-                renderOrders(filteredOrders); // UC tiếp tục bước 4
+                renderOrders(filteredOrders); 
             }
         });
         function logout() {
             localStorage.removeItem('token');
             window.location.href = 'Dang_nhap.html';
         }
-        // Trigger: Tự động chạy lấy dữ liệu từ database khi giao diện được tải xong
         window.onload = function () {
             fetchOrderHistory();
             fetchUserInfo();

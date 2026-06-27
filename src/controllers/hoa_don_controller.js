@@ -13,6 +13,7 @@ exports.show_user_bills = async (req, res, next) => {
     p.prod_name,
     p.prod_price,
     prod_img,
+    created_At,
     l.prod_id,
     l.quantity,
     inv_price,

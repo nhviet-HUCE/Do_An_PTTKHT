@@ -51,7 +51,20 @@ function formatPrice(price) {
         .toLocaleString("vi-VN");
 }
 
+async function apiGetProduct(id) {
 
+    const response =
+        await fetch(
+            `${API_URL}/api/products/${id}`,
+            {
+                method: "GET"
+            }
+        );
+
+    console.log(response);
+
+    return await response.json();
+}
 
 async function apiGetOrders() {
 
@@ -84,16 +97,16 @@ async function apiGetOrderDetail() {
 }
 
 
-async function apiCancelOrder(id) {  
+async function apiCancelOrder(id) {
 
     const response =
         await fetch(
             `${API_URL}/api/invoices/pending`,
             {
                 method: "PATCH",
-                body:JSON.stringify({
-                    ma_hoa_don:id, 
-                    trang_thai:'huy'
+                body: JSON.stringify({
+                    ma_hoa_don: id,
+                    trang_thai: 'huy'
                 })
             }
         );
@@ -112,22 +125,64 @@ async function apiApproveOrder(id) {
             {
                 method: "PATCH",
                 headers: {
-                        'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body:JSON.stringify({
-                    ma_hoa_don:id, 
-                    trang_thai:'chap_nhan'
+                body: JSON.stringify({
+                    ma_hoa_don: id,
+                    trang_thai: 'chap_nhan'
                 })
             }
         );
+    const tbody = document.getElementById('tbl-details');
+    
+    for (let i = 0; i < tbody.rows.length; i++) {
+        const row = tbody.rows[i];
+        
+        // Kiểm tra xem row có đủ cells không
+        if (!row.cells || row.cells.length < 3) {
+            console.warn(`Hàng ${i} không có đủ dữ liệu`);
+            continue;
+        }
+        
+        const productId = row.cells[0].textContent.trim();
+        const quantity = row.cells[2].textContent.trim();
+        
+        if (productId && productId !== 'Chưa chọn đơn hàng') {
+            console.log(`Mã sản phẩm: ${productId}, Số lượng: ${quantity}`);
+            const product = await apiGetProduct(productId);
+            console.log(product);
+            if(product.prod_quantity < quantity){
+                alert('Số lượng mua vượt quá hiện có');
+                return;
+            }           
+            let updated_quantity = product.prod_quantity - quantity;
+            console.log(updated_quantity);
+            await updateProdQuantity(productId, updated_quantity);
+         
+        }
+    }
+    
+    // console.log(response);
 
-    console.log(response);
-
-    return await response.json();
+    // return await response.json();
 }
 
 
-
+async function updateProdQuantity(id, quantity) {
+    const response = await fetch(
+        `${API_URL}/api/products/${id}`,
+        {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                prod_quantity: quantity
+            })
+        }
+    );
+    return await response.json();
+}
 // chọn order
 function selectOrder(idx) {
 
@@ -158,45 +213,59 @@ function selectOrder(idx) {
 }
 async function updateDetailPanel() { //chú ý phần này
 
-    const desc =
-        document.getElementById(
-            "detail-description"
-        );
-
-    const qty =
-        document.getElementById(
-            "detail-quantity"
-        );
-
-    if (!desc || !qty) {
-
-        return;
-    }
-
+    const tbody = document.getElementById('tbl-details');
     if (!selectedOrder) {
 
-        desc.textContent =
-            "Chưa chọn đơn hàng";
+        tbody.innerHTML = ` <tr>
+                    <td id="detail-id">
 
-        qty.textContent =
-            "--";
+                        Chưa chọn đơn hàng
 
+                    </td>
+
+                    <td id="detail-description">
+
+                        Chưa chọn đơn hàng
+
+                    </td>
+
+                    <td id="detail-quantity">
+
+                        --
+
+                    </td>
+
+                </tr>
+`
         return;
     }
-    const data=await apiGetOrderDetail();
-    desc.textContent =
-      
-        data[0].prod_name ||
-        "Không có mô tả";
+    tbody.innerHTML = "";
+    const data = await apiGetOrderDetail();
+    data.forEach(function (o) {
+        const row =
+            `<tr>
+                    <td>
+                        ${esc(o.prod_id)}
+                    </td>
 
-    qty.textContent =
-        data[0].quantity ||
-   
-        "--";
+                    <td>
+                        ${esc(o.prod_name)}
+                    </td>
+
+                    <td>
+                        ${esc(o.quantity)}
+                    </td>
+                <tr>`
+        tbody.insertAdjacentHTML(
+            "beforeend",
+            row
+        );
+    })
+
 }
 
 //    RENDER TABLE
- 
+
 
 function renderTable() {
 
@@ -216,11 +285,10 @@ function renderTable() {
                 <td colspan="7"
                     class="empty-note">
 
-                    ${
-                        connected
-                            ? "Chưa có đơn hàng"
-                            : "Vui lòng kết nối Database"
-                    }
+                    ${connected
+                ? "Chưa có đơn hàng"
+                : "Vui lòng kết nối Database"
+            }
 
                 </td>
             </tr>`;
@@ -261,8 +329,8 @@ function renderTable() {
 
                     <td>
                         ${formatPrice(
-                            o.Inv_price
-                        )} đ
+                    o.Inv_price
+                )} đ
                     </td>
                      <td>
 
@@ -351,11 +419,11 @@ async function cancelOrder() {
     );
 
     if (!ok) {
-        
+
         return;
     }
     filteredOrders[
-    selectedIdx
+        selectedIdx
     ].status = "Hủy";
 
     await apiCancelOrder(
@@ -365,9 +433,9 @@ async function cancelOrder() {
     selectedIdx = -1;
 
     selectedOrderId = null;
- 
 
-    
+
+
     await loadOrders();
 }
 
@@ -389,8 +457,8 @@ async function approveOrder() {
     await apiApproveOrder(
         selectedOrderId
     );
-     filteredOrders[
-    selectedIdx
+    filteredOrders[
+        selectedIdx
     ].status = "Duyệt";
 
     alert(
@@ -401,7 +469,7 @@ async function approveOrder() {
 
     selectedOrderId = null;
 
-   
+
     await loadOrders();
 }
 
@@ -409,7 +477,7 @@ async function approveOrder() {
 //    EMPLOYEE NAME
 
 async function loadEmployeeName() {
-    const token=localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const response = await fetch(
         `${API_URL}/api/auth/protected`,
         {
@@ -423,8 +491,8 @@ async function loadEmployeeName() {
     if (!response.ok) {
         throw new Error("Không lấy được thông tin nhân viên");
     }
-    const data=await response.json();
-    const empName =data.user;
+    const data = await response.json();
+    const empName = data.user;
 
     const target =
         document.getElementById(
@@ -444,7 +512,7 @@ function goLogin() {
 
     localStorage.removeItem("token");
     localStorage.removeItem("managerName");
-    window.location.href = "Dang_nhap.html";
+    window.location.href = "../../Dang_nhap.html";
 
 }
 

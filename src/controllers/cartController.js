@@ -31,6 +31,15 @@ exports.updateCartItem = async (req, res, next) => {
         next(err);
     }
 };
+exports.removeCart = async (req, res, next) => {
+    try {
+        const sql = 'delete from cart where user_name=?';
+        await db.execute(sql, [req.params.username]);
+        res.json({ message: 'Cart removed' });
+    } catch (err) {
+        next(err);
+    }
+};
 exports.removeFromCart = async (req, res, next) => {
     try {
         const productId = req.params.productId;
