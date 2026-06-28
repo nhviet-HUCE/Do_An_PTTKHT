@@ -38,7 +38,7 @@ exports.get_all_products = async (req, res) => {
 }
 exports.get_product_by_category = async (req, res) => {
     try {
-        const category = req.params.category;
+        const category = req.params.category.replace('-',' ');
         const rows = await database.query(
             "SELECT * FROM product WHERE prod_category = ?",
             [category]
@@ -161,6 +161,7 @@ exports.modify_product = async (req, res) => {
             "prod_quantity",
             "prod_price",
             "prod_category",
+            "prod_img",
             "prod_description",
             "prod_status"
         ];
